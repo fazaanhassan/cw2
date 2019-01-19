@@ -6,15 +6,42 @@
 #include <stdlib.h>
 #include <string.h>
 
+
+// static struct cs0019_statistics {
+//   unsigned long long nactive;     // # active allocations
+//   unsigned long long active_size; // # bytes in active allocations
+//   unsigned long long ntotal;      // # total allocations
+//   unsigned long long total_size;  // # bytes in total allocations
+//   unsigned long long nfail;       // # failed allocation attempts
+//   unsigned long long fail_size;   // # bytes in failed alloc attempts
+//   char *heap_min;                 // smallest allocated addr
+//   char *heap_max;                 // largest allocated addr
+// };
+
 /// cs0019_malloc(sz, file, line)
 ///    Return a pointer to `sz` bytes of newly-allocated dynamic memory.
 ///    The memory is not initialized. If `sz == 0`, then cs0019_malloc may
 ///    either return NULL or a unique, newly-allocated pointer value.
 ///    The allocation request was at location `file`:`line`.
 
+static unsigned long long int myNtotal = 0;
+static unsigned long long int myNfail = 0;
+static unsigned long long int myNactive = 0;
+static unsigned long long int myNTotal_size = 0;
+static unsigned long long int myNTfail_size = 0;
+
 void *cs0019_malloc(size_t sz, const char *file, int line) {
   (void)file, (void)line; // avoid uninitialized variable warnings
   // Your code here.
+
+  myNTotal_size += sz;
+  myNtotal++;
+  myNactive = myNtotal;
+  if(sz <= 0) {
+    myNfail++;
+    myNTfail_size += sz;
+  }
+  
   return base_malloc(sz);
 }
 
@@ -27,6 +54,10 @@ void *cs0019_malloc(size_t sz, const char *file, int line) {
 void cs0019_free(void *ptr, const char *file, int line) {
   (void)file, (void)line; // avoid uninitialized variable warnings
 // Your code here.
+  if (ptr != NULL && myNactive > 0) {
+      myNactive--;
+  }
+
   base_free(ptr);
 }
 
@@ -75,6 +106,11 @@ void cs0019_getstatistics(struct cs0019_statistics *stats) {
   // Stub: set all statistics to enormous numbers
   memset(stats, 255, sizeof(struct cs0019_statistics));
 // Your code here.
+  stats->total_size = myNTotal_size;
+  stats->ntotal = myNtotal;
+  stats->nfail = myNfail;
+  stats->nactive = myNactive;
+  stats->fail_size = myNTfail_size;
 }
 
 /// cs0019_printstatistics()
