@@ -25,10 +25,11 @@
 ///    The allocation request was at location `file`:`line`.
 
 //askdljaslkdj
-static unsigned long long int myNtotal = 0;
-static unsigned long long int myNfail = 0;
 static unsigned long long int myNactive = 0;
+static unsigned long long int myNTotal_active_size = 0;
+static unsigned long long int myNtotal = 0;
 static unsigned long long int myNTotal_size = 0;
+static unsigned long long int myNfail = 0;
 static unsigned long long int myNTfail_size = 0;
 
 void *cs0019_malloc(size_t sz, const char *file, int line) {
@@ -58,6 +59,7 @@ void cs0019_free(void *ptr, const char *file, int line) {
   if (ptr != NULL && myNactive > 0) {
       myNactive--;
   }
+  
 
   base_free(ptr);
 }
@@ -105,7 +107,7 @@ void *cs0019_calloc(size_t nmemb, size_t sz, const char *file, int line) {
 
 void cs0019_getstatistics(struct cs0019_statistics *stats) {
   // Stub: set all statistics to enormous numbers
-  memset(stats, 255, sizeof(struct cs0019_statistics));
+  memset(stats, 0, sizeof(struct cs0019_statistics));
 // Your code here.
   stats->total_size = myNTotal_size;
   stats->ntotal = myNtotal;
@@ -120,6 +122,7 @@ void cs0019_getstatistics(struct cs0019_statistics *stats) {
 void cs0019_printstatistics(void) {
   struct cs0019_statistics stats;
   cs0019_getstatistics(&stats);
+
 
   printf("malloc count: active %10llu   total %10llu   fail %10llu\n",
          stats.nactive, stats.ntotal, stats.nfail);
