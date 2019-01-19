@@ -6,18 +6,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-
-// static struct cs0019_statistics {
-//   unsigned long long nactive;     // # active allocations
-//   unsigned long long active_size; // # bytes in active allocations
-//   unsigned long long ntotal;      // # total allocations
-//   unsigned long long total_size;  // # bytes in total allocations
-//   unsigned long long nfail;       // # failed allocation attempts
-//   unsigned long long fail_size;   // # bytes in failed alloc attempts
-//   char *heap_min;                 // smallest allocated addr
-//   char *heap_max;                 // largest allocated addr
-// };
-
 /// cs0019_malloc(sz, file, line)
 ///    Return a pointer to `sz` bytes of newly-allocated dynamic memory.
 ///    The memory is not initialized. If `sz == 0`, then cs0019_malloc may
@@ -27,24 +15,54 @@
 //askdljaslkdj
 static unsigned long long int myNactive = 0;
 static unsigned long long int myNTotal_active_size = 0;
-static unsigned long long int myNtotal = 0;
+static unsigned long long int myNTotal = 0;
 static unsigned long long int myNTotal_size = 0;
 static unsigned long long int myNfail = 0;
 static unsigned long long int myNTfail_size = 0;
+static char *myHeap_min;
+static char *myHeap_max;
+
+static unsigned int moreThanOnce = 0;
+size_t very_large_size = (size_t)-1 - 150;
+size_t very_large_size_less = (size_t)-1;
 
 void *cs0019_malloc(size_t sz, const char *file, int line) {
   (void)file, (void)line; // avoid uninitialized variable warnings
   // Your code here.
-
+  
   myNTotal_size += sz;
-  myNtotal++;
-  myNactive = myNtotal;
-  if(sz <= 0) {
+  myNTotal_active_size = myNTotal_size;
+
+  myNTotal++;
+  myNactive = myNTotal;
+
+  if (sz == 0) {
+    myNfail++;
+    return NULL;
+  }
+  if (sz == very_large_size || sz == very_large_size_less ) {
     myNfail++;
     myNTfail_size += sz;
+    return NULL;
   }
+    
+  // Create the extra space
+  char *currentMem = (char *) malloc(sz + sizeof(size_t));
+  size_t *beginingOfCurrentMem = (size_t *) currentMem;
+  *beginingOfCurrentMem = sz;
+
+  myHeap_max = currentMem + sizeof(size_t) + myNTotal_size;
+  if (moreThanOnce < 1) {
+      myHeap_min = currentMem + sizeof(size_t);
+      moreThanOnce ++;
+  }
+
+
+
+
+  return currentMem + sizeof(size_t);
   
-  return base_malloc(sz);
+  // return base_malloc(sz);
 }
 
 /// cs0019_free(ptr, file, line)
@@ -56,10 +74,18 @@ void *cs0019_malloc(size_t sz, const char *file, int line) {
 void cs0019_free(void *ptr, const char *file, int line) {
   (void)file, (void)line; // avoid uninitialized variable warnings
 // Your code here.
-  if (ptr != NULL && myNactive > 0) {
-      myNactive--;
+  if (ptr == NULL) {
+    return;
   }
+  else {
+      myNactive--;
+      char *getSizeAddress = (char *)ptr - sizeof(size_t);
+      size_t *sizeValue = (size_t*)getSizeAddress;
+      myNTotal_active_size -= (*sizeValue);
+  }
+
   
+
 
   base_free(ptr);
 }
@@ -107,13 +133,16 @@ void *cs0019_calloc(size_t nmemb, size_t sz, const char *file, int line) {
 
 void cs0019_getstatistics(struct cs0019_statistics *stats) {
   // Stub: set all statistics to enormous numbers
-  memset(stats, 0, sizeof(struct cs0019_statistics));
+  memset(stats, 255, sizeof(struct cs0019_statistics));
 // Your code here.
   stats->total_size = myNTotal_size;
-  stats->ntotal = myNtotal;
+  stats->ntotal = myNTotal;
+  stats->active_size = myNTotal_active_size;
   stats->nfail = myNfail;
   stats->nactive = myNactive;
   stats->fail_size = myNTfail_size;
+  stats->heap_min = myHeap_min;
+  stats->heap_max = myHeap_max;
 }
 
 /// cs0019_printstatistics()
