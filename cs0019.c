@@ -24,6 +24,7 @@
 ///    either return NULL or a unique, newly-allocated pointer value.
 ///    The allocation request was at location `file`:`line`.
 
+//askdljaslkdj
 static unsigned long long int myNtotal = 0;
 static unsigned long long int myNfail = 0;
 static unsigned long long int myNactive = 0;
