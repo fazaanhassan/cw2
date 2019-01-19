@@ -38,10 +38,14 @@ void *cs0019_malloc(size_t sz, const char *file, int line) {
 
   if (sz == 0) {
     myNfail++;
+    myNTotal--;
+    myNactive = myNTotal;
     return NULL;
   }
   if (sz == very_large_size || sz == very_large_size_less ) {
     myNfail++;
+    myNTotal--;
+    myNactive = myNTotal;
     myNTfail_size += sz;
     return NULL;
   }
@@ -74,15 +78,14 @@ void *cs0019_malloc(size_t sz, const char *file, int line) {
 void cs0019_free(void *ptr, const char *file, int line) {
   (void)file, (void)line; // avoid uninitialized variable warnings
 // Your code here.
-  if (ptr == NULL) {
-    return;
-  }
-  else {
+  if (ptr != NULL) {
       myNactive--;
-      char *getSizeAddress = (char *)ptr - sizeof(size_t);
-      size_t *sizeValue = (size_t*)getSizeAddress;
-      myNTotal_active_size -= (*sizeValue);
+      char *getSizeAddress = (char *) ptr - sizeof(size_t);
+      size_t *sizeValue = (size_t*) getSizeAddress;
+      myNTotal_active_size -= *sizeValue;
   }
+
+  
 
   
 
