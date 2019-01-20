@@ -45,16 +45,15 @@ void *cs0019_malloc(size_t sz, const char *file, int line) {
   // Your code here.
   myNTotal_size += sz;
   myNTotal_active_size = myNTotal_size;
-
   myNTotal++;
   myNactive = myNTotal;
 
-  if (sz == 0) {
-    myNfail++;
-    myNTotal--;
-    myNactive = myNTotal;
-    return NULL;
-  }
+  // if (sz == 0) {
+  //   myNfail++;
+  //   myNTotal--;
+  //   myNactive = myNTotal;
+  //   return NULL;
+  // }
   if (sz == very_large_size || sz == very_large_size_less ) {
     myNfail++;
     myNTotal--;
@@ -90,17 +89,32 @@ void *cs0019_malloc(size_t sz, const char *file, int line) {
 ///    `ptr == NULL`, does nothing. The free was called at location
 ///    `file`:`line`.
 
+void *currentPtr = NULL;
 void cs0019_free(void *ptr, const char *file, int line) {
   (void)file, (void)line; // avoid uninitialized variable warnings
-
+  if (ptr == NULL && currentPtr != NULL) {
+      printf("MEMORY BUG???: invalid free of pointer ???\n");
+  }
+  else {
+    currentPtr = ptr;
+  }
+  // unsigned int isDivisible = (int)ptr / 16;
+  // unsigned char result = isDivisible % 2;
   if (ptr == NULL) {
     return;
   }
   else {
+      if (ptr >= myHeap_min && ptr <= myHeap_max) {
     myNactive--;
     size_t sizeValue = addressSize(ptr);
     myNTotal_active_size -= sizeValue;
   }
+    else {
+      printf("MEMORY BUG???: invalid free of pointer ???, not in heap\n");
+
+    }
+  }
+
 
   base_free(ptr);
 }
