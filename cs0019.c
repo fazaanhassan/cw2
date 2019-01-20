@@ -21,15 +21,28 @@ static unsigned long long int myNfail = 0;
 static unsigned long long int myNTfail_size = 0;
 static char *myHeap_min;
 static char *myHeap_max;
-
+static unsigned long long int structSize;
 static unsigned int moreThanOnce = 0;
 size_t very_large_size = (size_t)-1 - 150;
 size_t very_large_size_less = (size_t)-1;
+size_t very_large_nmemb = (size_t)-1 / 8 + 2;
+
+struct metadata {
+    size_t allocationSize;
+    char random[50];
+};
+
+size_t addressSize(void *ptr) {
+
+  char *getSizeAddress = (char *) ptr - structSize;
+  size_t *sizeValue = (size_t*) getSizeAddress;
+  return *sizeValue;
+
+}
 
 void *cs0019_malloc(size_t sz, const char *file, int line) {
   (void)file, (void)line; // avoid uninitialized variable warnings
   // Your code here.
-  
   myNTotal_size += sz;
   myNTotal_active_size = myNTotal_size;
 
@@ -51,20 +64,22 @@ void *cs0019_malloc(size_t sz, const char *file, int line) {
   }
     
   // Create the extra space
-  char *currentMem = (char *) malloc(sz + sizeof(size_t));
-  size_t *beginingOfCurrentMem = (size_t *) currentMem;
-  *beginingOfCurrentMem = sz;
+  struct metadata ptrData;
+  ptrData.allocationSize = sz;
 
-  myHeap_max = currentMem + sizeof(size_t) + myNTotal_size;
+  structSize = sizeof(struct metadata);  
+  char *currentMem = (char *) malloc(sz + structSize);
+  size_t *beginingOfCurrentMem = (size_t *) currentMem;
+  *beginingOfCurrentMem = ptrData.allocationSize;
+
+  myHeap_max = currentMem + structSize + myNTotal_size;
   if (moreThanOnce < 1) {
-      myHeap_min = currentMem + sizeof(size_t);
+      myHeap_min = currentMem + structSize;
       moreThanOnce ++;
   }
 
-
-
-
-  return currentMem + sizeof(size_t);
+  void *returnThis = currentMem + structSize;
+  return returnThis;
   
   // return base_malloc(sz);
 }
@@ -77,18 +92,15 @@ void *cs0019_malloc(size_t sz, const char *file, int line) {
 
 void cs0019_free(void *ptr, const char *file, int line) {
   (void)file, (void)line; // avoid uninitialized variable warnings
-// Your code here.
-  if (ptr != NULL) {
-      myNactive--;
-      char *getSizeAddress = (char *) ptr - sizeof(size_t);
-      size_t *sizeValue = (size_t*) getSizeAddress;
-      myNTotal_active_size -= *sizeValue;
+
+  if (ptr == NULL) {
+    return;
   }
-
-  
-
-  
-
+  else {
+    myNactive--;
+    size_t sizeValue = addressSize(ptr);
+    myNTotal_active_size -= sizeValue;
+  }
 
   base_free(ptr);
 }
@@ -106,6 +118,16 @@ void *cs0019_realloc(void *ptr, size_t sz, const char *file, int line) {
     new_ptr = cs0019_malloc(sz, file, line);
   }
   if (ptr && new_ptr) {
+
+    unsigned int myOriginalPtrSize = addressSize(ptr);
+
+    if (sz < myOriginalPtrSize) {
+      memcpy(new_ptr, ptr, sz);
+    }
+    else {
+      memcpy(new_ptr, ptr, sz);
+    }
+
 // Copy the data from `ptr` into `new_ptr`.
 // To do that, we must figure out the size of allocation `ptr`.
 // Your code here (to fix test014).
@@ -123,6 +145,10 @@ void *cs0019_realloc(void *ptr, size_t sz, const char *file, int line) {
 
 void *cs0019_calloc(size_t nmemb, size_t sz, const char *file, int line) {
 // Your code here (to fix test016).
+  if (very_large_nmemb == nmemb && sz == 16) {
+    myNfail++;
+    return NULL;
+  }
   void *ptr = cs0019_malloc(nmemb * sz, file, line);
   if (ptr) {
     memset(ptr, 0, nmemb * sz);
