@@ -1,11 +1,18 @@
 ## COMP0019 CW2 Grade Report
-Report for commit SHA: b1d583a2f7c43546e3a9b004668d39fd191171a9
+Report for commit SHA: 35aeb970cdf25c065845ca5d88a6c55a0fef6769
 
 ### Output
 
 
       CLEAN 
       COMPILE cs0019.c
+    cs0019.c: In function ‘cs0019_free’:
+    cs0019.c:107:15: warning: comparison of distinct pointer types lacks a cast
+           if (ptr >= myHeap_min && ptr <= myHeap_max) {
+                   ^
+    cs0019.c:107:36: warning: comparison of distinct pointer types lacks a cast
+           if (ptr >= myHeap_min && ptr <= myHeap_max) {
+                                        ^
       COMPILE basealloc.c
       COMPILE test001.c
       LINK test001 
@@ -106,14 +113,9 @@ Report for commit SHA: b1d583a2f7c43546e3a9b004668d39fd191171a9
     test014 OK
     test015 OK
     test016 OK
-    test017 FAIL: Missing output starting on line 0
-      test017.c:12: Expected `MEMORY BUG???: invalid free of pointer ???, not in heap`
-    test018 FAIL: Missing output starting on line 0
-      test018.c:19: Expected `MEMORY BUG???: invalid free of pointer ???, not in heap`
-    test019 FAIL: Unexpected output starting on line 1
-      test019.c:13: Expected `MEMORY BUG???: invalid free of pointer ???, not in heap`
-      output:1: Got `malloc count: active 18446744073709551615   total          0   fail          0
-                     malloc size:  active 4856603333026086915   total          0   fail          0`
+    test017 OK
+    test018 OK
+    test019 OK
     test020 FAIL: Unexpected output starting on line 1
       test020.c:14: Expected `MEMORY BUG???: invalid free of pointer ???`
       output:1: Got `malloc count: active 18446744073709551615   total          1   fail          0
@@ -138,10 +140,7 @@ Report for commit SHA: b1d583a2f7c43546e3a9b004668d39fd191171a9
       test025.c:13: Expected `MEMORY BUG???: invalid ??{realloc|free}?? of pointer ???`
       output:1: Got `malloc count: active          1   total          2   fail          0
                      malloc size:  active       4001   total       4001   fail          0`
-    test026 FAIL: Unexpected output starting on line 1
-      test026.c:13: Expected `MEMORY BUG???: invalid ??{realloc|free}?? of pointer ???`
-      output:1: Got `malloc count: active          1   total          2   fail          0
-                     malloc size:  active       4000   total       4005   fail          0`
+    test026 OK
     test027 FAIL: Unexpected output starting on line 1
       test027.c:13: Expected `MEMORY BUG???: invalid ??{realloc|free}?? of pointer ???`
       output:1: Got `malloc count: active          1   total          2   fail          0
@@ -176,218 +175,218 @@ Report for commit SHA: b1d583a2f7c43546e3a9b004668d39fd191171a9
     test037 FAIL: Missing output starting on line 0
       test037.c:13: Expected `malloc count: active          0   total          0   fail          1`
     test038 OK
-    16 of 38 tests passed
+    20 of 38 tests passed
     make: 'hhtest' is up to date.
     ./hhtest 0
-    Aborted
-    *** Error in `./hhtest': free(): invalid pointer: 0x00000000025a4050 ***
+    *** Error in `./hhtest': free(): invalid pointer: 0x00000000020f3050 ***
     ======= Backtrace: =========
-    /lib/x86_64-linux-gnu/libc.so.6(+0x777e5)[0x7fa82d0747e5]
-    /lib/x86_64-linux-gnu/libc.so.6(+0x8037a)[0x7fa82d07d37a]
-    /lib/x86_64-linux-gnu/libc.so.6(cfree+0x4c)[0x7fa82d08153c]
+    /lib/x86_64-linux-gnu/libc.so.6(+0x777e5)[0x7f7458cb17e5]
+    /lib/x86_64-linux-gnu/libc.so.6(+0x8037a)[0x7f7458cba37a]
+    /lib/x86_64-linux-gnu/libc.so.6(cfree+0x4c)[0x7f7458cbe53c]
     ./hhtest[0x40164a]
     ./hhtest[0x400ab1]
-    /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0)[0x7fa82d01d830]
+    /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0)[0x7f7458c5a830]
     ./hhtest[0x400b89]
     ======= Memory map: ========
-    00400000-00403000 r-xp 00000000 08:01 422343                             /home/user/hhtest
-    00602000-00603000 r--p 00002000 08:01 422343                             /home/user/hhtest
-    00603000-00604000 rw-p 00003000 08:01 422343                             /home/user/hhtest
-    025a4000-025c5000 rw-p 00000000 00:00 0                                  [heap]
-    7fa828000000-7fa828021000 rw-p 00000000 00:00 0 
-    7fa828021000-7fa82c000000 ---p 00000000 00:00 0 
-    7fa82cde7000-7fa82cdfd000 r-xp 00000000 08:01 536                        /lib/x86_64-linux-gnu/libgcc_s.so.1
-    7fa82cdfd000-7fa82cffc000 ---p 00016000 08:01 536                        /lib/x86_64-linux-gnu/libgcc_s.so.1
-    7fa82cffc000-7fa82cffd000 rw-p 00015000 08:01 536                        /lib/x86_64-linux-gnu/libgcc_s.so.1
-    7fa82cffd000-7fa82d1bd000 r-xp 00000000 08:01 510                        /lib/x86_64-linux-gnu/libc-2.23.so
-    7fa82d1bd000-7fa82d3bd000 ---p 001c0000 08:01 510                        /lib/x86_64-linux-gnu/libc-2.23.so
-    7fa82d3bd000-7fa82d3c1000 r--p 001c0000 08:01 510                        /lib/x86_64-linux-gnu/libc-2.23.so
-    7fa82d3c1000-7fa82d3c3000 rw-p 001c4000 08:01 510                        /lib/x86_64-linux-gnu/libc-2.23.so
-    7fa82d3c3000-7fa82d3c7000 rw-p 00000000 00:00 0 
-    7fa82d3c7000-7fa82d4cf000 r-xp 00000000 08:01 551                        /lib/x86_64-linux-gnu/libm-2.23.so
-    7fa82d4cf000-7fa82d6ce000 ---p 00108000 08:01 551                        /lib/x86_64-linux-gnu/libm-2.23.so
-    7fa82d6ce000-7fa82d6cf000 r--p 00107000 08:01 551                        /lib/x86_64-linux-gnu/libm-2.23.so
-    7fa82d6cf000-7fa82d6d0000 rw-p 00108000 08:01 551                        /lib/x86_64-linux-gnu/libm-2.23.so
-    7fa82d6d0000-7fa82d6f6000 r-xp 00000000 08:01 486                        /lib/x86_64-linux-gnu/ld-2.23.so
-    7fa82d8e3000-7fa82d8e6000 rw-p 00000000 00:00 0 
-    7fa82d8f2000-7fa82d8f5000 rw-p 00000000 00:00 0 
-    7fa82d8f5000-7fa82d8f6000 r--p 00025000 08:01 486                        /lib/x86_64-linux-gnu/ld-2.23.so
-    7fa82d8f6000-7fa82d8f7000 rw-p 00026000 08:01 486                        /lib/x86_64-linux-gnu/ld-2.23.so
-    7fa82d8f7000-7fa82d8f8000 rw-p 00000000 00:00 0 
-    7fff41e1e000-7fff41e3f000 rw-p 00000000 00:00 0                          [stack]
-    7fff41f1c000-7fff41f1e000 r--p 00000000 00:00 0                          [vvar]
-    7fff41f1e000-7fff41f20000 r-xp 00000000 00:00 0                          [vdso]
+    00400000-00403000 r-xp 00000000 08:01 421324                             /home/user/hhtest
+    00602000-00603000 r--p 00002000 08:01 421324                             /home/user/hhtest
+    00603000-00604000 rw-p 00003000 08:01 421324                             /home/user/hhtest
+    020f3000-02114000 rw-p 00000000 00:00 0                                  [heap]
+    7f7454000000-7f7454021000 rw-p 00000000 00:00 0 
+    7f7454021000-7f7458000000 ---p 00000000 00:00 0 
+    7f7458a24000-7f7458a3a000 r-xp 00000000 08:01 536                        /lib/x86_64-linux-gnu/libgcc_s.so.1
+    7f7458a3a000-7f7458c39000 ---p 00016000 08:01 536                        /lib/x86_64-linux-gnu/libgcc_s.so.1
+    7f7458c39000-7f7458c3a000 rw-p 00015000 08:01 536                        /lib/x86_64-linux-gnu/libgcc_s.so.1
+    7f7458c3a000-7f7458dfa000 r-xp 00000000 08:01 510                        /lib/x86_64-linux-gnu/libc-2.23.so
+    7f7458dfa000-7f7458ffa000 ---p 001c0000 08:01 510                        /lib/x86_64-linux-gnu/libc-2.23.so
+    7f7458ffa000-7f7458ffe000 r--p 001c0000 08:01 510                        /lib/x86_64-linux-gnu/libc-2.23.so
+    7f7458ffe000-7f7459000000 rw-p 001c4000 08:01 510                        /lib/x86_64-linux-gnu/libc-2.23.so
+    7f7459000000-7f7459004000 rw-p 00000000 00:00 0 
+    7f7459004000-7f745910c000 r-xp 00000000 08:01 551                        /lib/x86_64-linux-gnu/libm-2.23.so
+    7f745910c000-7f745930b000 ---p 00108000 08:01 551                        /lib/x86_64-linux-gnu/libm-2.23.so
+    7f745930b000-7f745930c000 r--p 00107000 08:01 551                        /lib/x86_64-linux-gnu/libm-2.23.so
+    7f745930c000-7f745930d000 rw-p 00108000 08:01 551                        /lib/x86_64-linux-gnu/libm-2.23.so
+    7f745930d000-7f7459333000 r-xp 00000000 08:01 486                        /lib/x86_64-linux-gnu/ld-2.23.so
+    7f7459520000-7f7459523000 rw-p 00000000 00:00 0 
+    7f745952f000-7f7459532000 rw-p 00000000 00:00 0 
+    7f7459532000-7f7459533000 r--p 00025000 08:01 486                        /lib/x86_64-linux-gnu/ld-2.23.so
+    7f7459533000-7f7459534000 rw-p 00026000 08:01 486                        /lib/x86_64-linux-gnu/ld-2.23.so
+    7f7459534000-7f7459535000 rw-p 00000000 00:00 0 
+    7ffc13b96000-7ffc13bb7000 rw-p 00000000 00:00 0                          [stack]
+    7ffc13bc1000-7ffc13bc3000 r--p 00000000 00:00 0                          [vvar]
+    7ffc13bc3000-7ffc13bc5000 r-xp 00000000 00:00 0                          [vdso]
     ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0                  [vsyscall]
     timeout: the monitored command dumped core
     
     ========================
     ./hhtest 1
     Aborted
-    *** Error in `./hhtest': free(): invalid pointer: 0x000000000152d050 ***
+    *** Error in `./hhtest': free(): invalid pointer: 0x00000000007e4050 ***
     ======= Backtrace: =========
-    /lib/x86_64-linux-gnu/libc.so.6(+0x777e5)[0x7f9c703007e5]
-    /lib/x86_64-linux-gnu/libc.so.6(+0x8037a)[0x7f9c7030937a]
-    /lib/x86_64-linux-gnu/libc.so.6(cfree+0x4c)[0x7f9c7030d53c]
+    /lib/x86_64-linux-gnu/libc.so.6(+0x777e5)[0x7f0be856d7e5]
+    /lib/x86_64-linux-gnu/libc.so.6(+0x8037a)[0x7f0be857637a]
+    /lib/x86_64-linux-gnu/libc.so.6(cfree+0x4c)[0x7f0be857a53c]
     ./hhtest[0x40164a]
     ./hhtest[0x400ab1]
-    /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0)[0x7f9c702a9830]
+    /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0)[0x7f0be8516830]
     ./hhtest[0x400b89]
     ======= Memory map: ========
-    00400000-00403000 r-xp 00000000 08:01 422343                             /home/user/hhtest
-    00602000-00603000 r--p 00002000 08:01 422343                             /home/user/hhtest
-    00603000-00604000 rw-p 00003000 08:01 422343                             /home/user/hhtest
-    0152d000-0154e000 rw-p 00000000 00:00 0                                  [heap]
-    7f9c6c000000-7f9c6c021000 rw-p 00000000 00:00 0 
-    7f9c6c021000-7f9c70000000 ---p 00000000 00:00 0 
-    7f9c70073000-7f9c70089000 r-xp 00000000 08:01 536                        /lib/x86_64-linux-gnu/libgcc_s.so.1
-    7f9c70089000-7f9c70288000 ---p 00016000 08:01 536                        /lib/x86_64-linux-gnu/libgcc_s.so.1
-    7f9c70288000-7f9c70289000 rw-p 00015000 08:01 536                        /lib/x86_64-linux-gnu/libgcc_s.so.1
-    7f9c70289000-7f9c70449000 r-xp 00000000 08:01 510                        /lib/x86_64-linux-gnu/libc-2.23.so
-    7f9c70449000-7f9c70649000 ---p 001c0000 08:01 510                        /lib/x86_64-linux-gnu/libc-2.23.so
-    7f9c70649000-7f9c7064d000 r--p 001c0000 08:01 510                        /lib/x86_64-linux-gnu/libc-2.23.so
-    7f9c7064d000-7f9c7064f000 rw-p 001c4000 08:01 510                        /lib/x86_64-linux-gnu/libc-2.23.so
-    7f9c7064f000-7f9c70653000 rw-p 00000000 00:00 0 
-    7f9c70653000-7f9c7075b000 r-xp 00000000 08:01 551                        /lib/x86_64-linux-gnu/libm-2.23.so
-    7f9c7075b000-7f9c7095a000 ---p 00108000 08:01 551                        /lib/x86_64-linux-gnu/libm-2.23.so
-    7f9c7095a000-7f9c7095b000 r--p 00107000 08:01 551                        /lib/x86_64-linux-gnu/libm-2.23.so
-    7f9c7095b000-7f9c7095c000 rw-p 00108000 08:01 551                        /lib/x86_64-linux-gnu/libm-2.23.so
-    7f9c7095c000-7f9c70982000 r-xp 00000000 08:01 486                        /lib/x86_64-linux-gnu/ld-2.23.so
-    7f9c70b6f000-7f9c70b72000 rw-p 00000000 00:00 0 
-    7f9c70b7e000-7f9c70b81000 rw-p 00000000 00:00 0 
-    7f9c70b81000-7f9c70b82000 r--p 00025000 08:01 486                        /lib/x86_64-linux-gnu/ld-2.23.so
-    7f9c70b82000-7f9c70b83000 rw-p 00026000 08:01 486                        /lib/x86_64-linux-gnu/ld-2.23.so
-    7f9c70b83000-7f9c70b84000 rw-p 00000000 00:00 0 
-    7ffe060aa000-7ffe060cb000 rw-p 00000000 00:00 0                          [stack]
-    7ffe0619c000-7ffe0619e000 r--p 00000000 00:00 0                          [vvar]
-    7ffe0619e000-7ffe061a0000 r-xp 00000000 00:00 0                          [vdso]
+    00400000-00403000 r-xp 00000000 08:01 421324                             /home/user/hhtest
+    00602000-00603000 r--p 00002000 08:01 421324                             /home/user/hhtest
+    00603000-00604000 rw-p 00003000 08:01 421324                             /home/user/hhtest
+    007e4000-00805000 rw-p 00000000 00:00 0                                  [heap]
+    7f0be4000000-7f0be4021000 rw-p 00000000 00:00 0 
+    7f0be4021000-7f0be8000000 ---p 00000000 00:00 0 
+    7f0be82e0000-7f0be82f6000 r-xp 00000000 08:01 536                        /lib/x86_64-linux-gnu/libgcc_s.so.1
+    7f0be82f6000-7f0be84f5000 ---p 00016000 08:01 536                        /lib/x86_64-linux-gnu/libgcc_s.so.1
+    7f0be84f5000-7f0be84f6000 rw-p 00015000 08:01 536                        /lib/x86_64-linux-gnu/libgcc_s.so.1
+    7f0be84f6000-7f0be86b6000 r-xp 00000000 08:01 510                        /lib/x86_64-linux-gnu/libc-2.23.so
+    7f0be86b6000-7f0be88b6000 ---p 001c0000 08:01 510                        /lib/x86_64-linux-gnu/libc-2.23.so
+    7f0be88b6000-7f0be88ba000 r--p 001c0000 08:01 510                        /lib/x86_64-linux-gnu/libc-2.23.so
+    7f0be88ba000-7f0be88bc000 rw-p 001c4000 08:01 510                        /lib/x86_64-linux-gnu/libc-2.23.so
+    7f0be88bc000-7f0be88c0000 rw-p 00000000 00:00 0 
+    7f0be88c0000-7f0be89c8000 r-xp 00000000 08:01 551                        /lib/x86_64-linux-gnu/libm-2.23.so
+    7f0be89c8000-7f0be8bc7000 ---p 00108000 08:01 551                        /lib/x86_64-linux-gnu/libm-2.23.so
+    7f0be8bc7000-7f0be8bc8000 r--p 00107000 08:01 551                        /lib/x86_64-linux-gnu/libm-2.23.so
+    7f0be8bc8000-7f0be8bc9000 rw-p 00108000 08:01 551                        /lib/x86_64-linux-gnu/libm-2.23.so
+    7f0be8bc9000-7f0be8bef000 r-xp 00000000 08:01 486                        /lib/x86_64-linux-gnu/ld-2.23.so
+    7f0be8ddc000-7f0be8ddf000 rw-p 00000000 00:00 0 
+    7f0be8deb000-7f0be8dee000 rw-p 00000000 00:00 0 
+    7f0be8dee000-7f0be8def000 r--p 00025000 08:01 486                        /lib/x86_64-linux-gnu/ld-2.23.so
+    7f0be8def000-7f0be8df0000 rw-p 00026000 08:01 486                        /lib/x86_64-linux-gnu/ld-2.23.so
+    7f0be8df0000-7f0be8df1000 rw-p 00000000 00:00 0 
+    7fff1f8fc000-7fff1f91d000 rw-p 00000000 00:00 0                          [stack]
+    7fff1f9e6000-7fff1f9e8000 r--p 00000000 00:00 0                          [vvar]
+    7fff1f9e8000-7fff1f9ea000 r-xp 00000000 00:00 0                          [vdso]
     ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0                  [vsyscall]
     timeout: the monitored command dumped core
     
     ========================
     ./hhtest 0.4
     Aborted
-    *** Error in `./hhtest': free(): invalid pointer: 0x000000000232d050 ***
+    Aborted
+    *** Error in `./hhtest': free(): invalid pointer: 0x0000000001b34050 ***
     ======= Backtrace: =========
-    /lib/x86_64-linux-gnu/libc.so.6(+0x777e5)[0x7f76d9cd57e5]
-    /lib/x86_64-linux-gnu/libc.so.6(+0x8037a)[0x7f76d9cde37a]
-    /lib/x86_64-linux-gnu/libc.so.6(cfree+0x4c)[0x7f76d9ce253c]
+    /lib/x86_64-linux-gnu/libc.so.6(+0x777e5)[0x7f3614e277e5]
+    /lib/x86_64-linux-gnu/libc.so.6(+0x8037a)[0x7f3614e3037a]
+    /lib/x86_64-linux-gnu/libc.so.6(cfree+0x4c)[0x7f3614e3453c]
     ./hhtest[0x40164a]
     ./hhtest[0x400ab1]
-    /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0)[0x7f76d9c7e830]
+    /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0)[0x7f3614dd0830]
     ./hhtest[0x400b89]
     ======= Memory map: ========
-    00400000-00403000 r-xp 00000000 08:01 422343                             /home/user/hhtest
-    00602000-00603000 r--p 00002000 08:01 422343                             /home/user/hhtest
-    00603000-00604000 rw-p 00003000 08:01 422343                             /home/user/hhtest
-    0232d000-0234e000 rw-p 00000000 00:00 0                                  [heap]
-    7f76d4000000-7f76d4021000 rw-p 00000000 00:00 0 
-    7f76d4021000-7f76d8000000 ---p 00000000 00:00 0 
-    7f76d9a48000-7f76d9a5e000 r-xp 00000000 08:01 536                        /lib/x86_64-linux-gnu/libgcc_s.so.1
-    7f76d9a5e000-7f76d9c5d000 ---p 00016000 08:01 536                        /lib/x86_64-linux-gnu/libgcc_s.so.1
-    7f76d9c5d000-7f76d9c5e000 rw-p 00015000 08:01 536                        /lib/x86_64-linux-gnu/libgcc_s.so.1
-    7f76d9c5e000-7f76d9e1e000 r-xp 00000000 08:01 510                        /lib/x86_64-linux-gnu/libc-2.23.so
-    7f76d9e1e000-7f76da01e000 ---p 001c0000 08:01 510                        /lib/x86_64-linux-gnu/libc-2.23.so
-    7f76da01e000-7f76da022000 r--p 001c0000 08:01 510                        /lib/x86_64-linux-gnu/libc-2.23.so
-    7f76da022000-7f76da024000 rw-p 001c4000 08:01 510                        /lib/x86_64-linux-gnu/libc-2.23.so
-    7f76da024000-7f76da028000 rw-p 00000000 00:00 0 
-    7f76da028000-7f76da130000 r-xp 00000000 08:01 551                        /lib/x86_64-linux-gnu/libm-2.23.so
-    7f76da130000-7f76da32f000 ---p 00108000 08:01 551                        /lib/x86_64-linux-gnu/libm-2.23.so
-    7f76da32f000-7f76da330000 r--p 00107000 08:01 551                        /lib/x86_64-linux-gnu/libm-2.23.so
-    7f76da330000-7f76da331000 rw-p 00108000 08:01 551                        /lib/x86_64-linux-gnu/libm-2.23.so
-    7f76da331000-7f76da357000 r-xp 00000000 08:01 486                        /lib/x86_64-linux-gnu/ld-2.23.so
-    7f76da544000-7f76da547000 rw-p 00000000 00:00 0 
-    7f76da553000-7f76da556000 rw-p 00000000 00:00 0 
-    7f76da556000-7f76da557000 r--p 00025000 08:01 486                        /lib/x86_64-linux-gnu/ld-2.23.so
-    7f76da557000-7f76da558000 rw-p 00026000 08:01 486                        /lib/x86_64-linux-gnu/ld-2.23.so
-    7f76da558000-7f76da559000 rw-p 00000000 00:00 0 
-    7fff5554e000-7fff5556f000 rw-p 00000000 00:00 0                          [stack]
-    7fff555e2000-7fff555e4000 r--p 00000000 00:00 0                          [vvar]
-    7fff555e4000-7fff555e6000 r-xp 00000000 00:00 0                          [vdso]
+    00400000-00403000 r-xp 00000000 08:01 421324                             /home/user/hhtest
+    00602000-00603000 r--p 00002000 08:01 421324                             /home/user/hhtest
+    00603000-00604000 rw-p 00003000 08:01 421324                             /home/user/hhtest
+    01b34000-01b55000 rw-p 00000000 00:00 0                                  [heap]
+    7f3610000000-7f3610021000 rw-p 00000000 00:00 0 
+    7f3610021000-7f3614000000 ---p 00000000 00:00 0 
+    7f3614b9a000-7f3614bb0000 r-xp 00000000 08:01 536                        /lib/x86_64-linux-gnu/libgcc_s.so.1
+    7f3614bb0000-7f3614daf000 ---p 00016000 08:01 536                        /lib/x86_64-linux-gnu/libgcc_s.so.1
+    7f3614daf000-7f3614db0000 rw-p 00015000 08:01 536                        /lib/x86_64-linux-gnu/libgcc_s.so.1
+    7f3614db0000-7f3614f70000 r-xp 00000000 08:01 510                        /lib/x86_64-linux-gnu/libc-2.23.so
+    7f3614f70000-7f3615170000 ---p 001c0000 08:01 510                        /lib/x86_64-linux-gnu/libc-2.23.so
+    7f3615170000-7f3615174000 r--p 001c0000 08:01 510                        /lib/x86_64-linux-gnu/libc-2.23.so
+    7f3615174000-7f3615176000 rw-p 001c4000 08:01 510                        /lib/x86_64-linux-gnu/libc-2.23.so
+    7f3615176000-7f361517a000 rw-p 00000000 00:00 0 
+    7f361517a000-7f3615282000 r-xp 00000000 08:01 551                        /lib/x86_64-linux-gnu/libm-2.23.so
+    7f3615282000-7f3615481000 ---p 00108000 08:01 551                        /lib/x86_64-linux-gnu/libm-2.23.so
+    7f3615481000-7f3615482000 r--p 00107000 08:01 551                        /lib/x86_64-linux-gnu/libm-2.23.so
+    7f3615482000-7f3615483000 rw-p 00108000 08:01 551                        /lib/x86_64-linux-gnu/libm-2.23.so
+    7f3615483000-7f36154a9000 r-xp 00000000 08:01 486                        /lib/x86_64-linux-gnu/ld-2.23.so
+    7f3615696000-7f3615699000 rw-p 00000000 00:00 0 
+    7f36156a5000-7f36156a8000 rw-p 00000000 00:00 0 
+    7f36156a8000-7f36156a9000 r--p 00025000 08:01 486                        /lib/x86_64-linux-gnu/ld-2.23.so
+    7f36156a9000-7f36156aa000 rw-p 00026000 08:01 486                        /lib/x86_64-linux-gnu/ld-2.23.so
+    7f36156aa000-7f36156ab000 rw-p 00000000 00:00 0 
+    7fff2a401000-7fff2a422000 rw-p 00000000 00:00 0                          [stack]
+    7fff2a538000-7fff2a53a000 r--p 00000000 00:00 0                          [vvar]
+    7fff2a53a000-7fff2a53c000 r-xp 00000000 00:00 0                          [vdso]
     ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0                  [vsyscall]
     timeout: the monitored command dumped core
     
     ========================
     ./hhtest -0.4
-    *** Error in `./hhtest': free(): invalid pointer: 0x0000000001d2e050 ***
+    Aborted
+    *** Error in `./hhtest': free(): invalid pointer: 0x000000000073b050 ***
     ======= Backtrace: =========
-    /lib/x86_64-linux-gnu/libc.so.6(+0x777e5)[0x7ff5fb0637e5]
-    /lib/x86_64-linux-gnu/libc.so.6(+0x8037a)[0x7ff5fb06c37a]
-    /lib/x86_64-linux-gnu/libc.so.6(cfree+0x4c)[0x7ff5fb07053c]
+    /lib/x86_64-linux-gnu/libc.so.6(+0x777e5)[0x7f07381497e5]
+    /lib/x86_64-linux-gnu/libc.so.6(+0x8037a)[0x7f073815237a]
+    /lib/x86_64-linux-gnu/libc.so.6(cfree+0x4c)[0x7f073815653c]
     ./hhtest[0x40164a]
     ./hhtest[0x400ab1]
-    /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0)[0x7ff5fb00c830]
+    /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0)[0x7f07380f2830]
     ./hhtest[0x400b89]
     ======= Memory map: ========
-    00400000-00403000 r-xp 00000000 08:01 422343                             /home/user/hhtest
-    00602000-00603000 r--p 00002000 08:01 422343                             /home/user/hhtest
-    00603000-00604000 rw-p 00003000 08:01 422343                             /home/user/hhtest
-    01d2e000-01d4f000 rw-p 00000000 00:00 0                                  [heap]
-    7ff5f4000000-7ff5f4021000 rw-p 00000000 00:00 0 
-    7ff5f4021000-7ff5f8000000 ---p 00000000 00:00 0 
-    7ff5fadd6000-7ff5fadec000 r-xp 00000000 08:01 536                        /lib/x86_64-linux-gnu/libgcc_s.so.1
-    7ff5fadec000-7ff5fafeb000 ---p 00016000 08:01 536                        /lib/x86_64-linux-gnu/libgcc_s.so.1
-    7ff5fafeb000-7ff5fafec000 rw-p 00015000 08:01 536                        /lib/x86_64-linux-gnu/libgcc_s.so.1
-    7ff5fafec000-7ff5fb1ac000 r-xp 00000000 08:01 510                        /lib/x86_64-linux-gnu/libc-2.23.so
-    7ff5fb1ac000-7ff5fb3ac000 ---p 001c0000 08:01 510                        /lib/x86_64-linux-gnu/libc-2.23.so
-    7ff5fb3ac000-7ff5fb3b0000 r--p 001c0000 08:01 510                        /lib/x86_64-linux-gnu/libc-2.23.so
-    7ff5fb3b0000-7ff5fb3b2000 rw-p 001c4000 08:01 510                        /lib/x86_64-linux-gnu/libc-2.23.so
-    7ff5fb3b2000-7ff5fb3b6000 rw-p 00000000 00:00 0 
-    7ff5fb3b6000-7ff5fb4be000 r-xp 00000000 08:01 551                        /lib/x86_64-linux-gnu/libm-2.23.so
-    7ff5fb4be000-7ff5fb6bd000 ---p 00108000 08:01 551                        /lib/x86_64-linux-gnu/libm-2.23.so
-    7ff5fb6bd000-7ff5fb6be000 r--p 00107000 08:01 551                        /lib/x86_64-linux-gnu/libm-2.23.so
-    7ff5fb6be000-7ff5fb6bf000 rw-p 00108000 08:01 551                        /lib/x86_64-linux-gnu/libm-2.23.so
-    7ff5fb6bf000-7ff5fb6e5000 r-xp 00000000 08:01 486                        /lib/x86_64-linux-gnu/ld-2.23.so
-    7ff5fb8d2000-7ff5fb8d5000 rw-p 00000000 00:00 0 
-    7ff5fb8e1000-7ff5fb8e4000 rw-p 00000000 00:00 0 
-    7ff5fb8e4000-7ff5fb8e5000 r--p 00025000 08:01 486                        /lib/x86_64-linux-gnu/ld-2.23.so
-    7ff5fb8e5000-7ff5fb8e6000 rw-p 00026000 08:01 486                        /lib/x86_64-linux-gnu/ld-2.23.so
-    7ff5fb8e6000-7ff5fb8e7000 rw-p 00000000 00:00 0 
-    7ffe2984a000-7ffe2986b000 rw-p 00000000 00:00 0                          [stack]
-    7ffe298d7000-7ffe298d9000 r--p 00000000 00:00 0                          [vvar]
-    7ffe298d9000-7ffe298db000 r-xp 00000000 00:00 0                          [vdso]
+    00400000-00403000 r-xp 00000000 08:01 421324                             /home/user/hhtest
+    00602000-00603000 r--p 00002000 08:01 421324                             /home/user/hhtest
+    00603000-00604000 rw-p 00003000 08:01 421324                             /home/user/hhtest
+    0073b000-0075c000 rw-p 00000000 00:00 0                                  [heap]
+    7f0733dea000-7f0733e00000 r-xp 00000000 08:01 536                        /lib/x86_64-linux-gnu/libgcc_s.so.1
+    7f0733e00000-7f0733fff000 ---p 00016000 08:01 536                        /lib/x86_64-linux-gnu/libgcc_s.so.1
+    7f0733fff000-7f0734000000 rw-p 00015000 08:01 536                        /lib/x86_64-linux-gnu/libgcc_s.so.1
+    7f0734000000-7f0734021000 rw-p 00000000 00:00 0 
+    7f0734021000-7f0738000000 ---p 00000000 00:00 0 
+    7f07380d2000-7f0738292000 r-xp 00000000 08:01 510                        /lib/x86_64-linux-gnu/libc-2.23.so
+    7f0738292000-7f0738492000 ---p 001c0000 08:01 510                        /lib/x86_64-linux-gnu/libc-2.23.so
+    7f0738492000-7f0738496000 r--p 001c0000 08:01 510                        /lib/x86_64-linux-gnu/libc-2.23.so
+    7f0738496000-7f0738498000 rw-p 001c4000 08:01 510                        /lib/x86_64-linux-gnu/libc-2.23.so
+    7f0738498000-7f073849c000 rw-p 00000000 00:00 0 
+    7f073849c000-7f07385a4000 r-xp 00000000 08:01 551                        /lib/x86_64-linux-gnu/libm-2.23.so
+    7f07385a4000-7f07387a3000 ---p 00108000 08:01 551                        /lib/x86_64-linux-gnu/libm-2.23.so
+    7f07387a3000-7f07387a4000 r--p 00107000 08:01 551                        /lib/x86_64-linux-gnu/libm-2.23.so
+    7f07387a4000-7f07387a5000 rw-p 00108000 08:01 551                        /lib/x86_64-linux-gnu/libm-2.23.so
+    7f07387a5000-7f07387cb000 r-xp 00000000 08:01 486                        /lib/x86_64-linux-gnu/ld-2.23.so
+    7f07389b8000-7f07389bb000 rw-p 00000000 00:00 0 
+    7f07389c7000-7f07389ca000 rw-p 00000000 00:00 0 
+    7f07389ca000-7f07389cb000 r--p 00025000 08:01 486                        /lib/x86_64-linux-gnu/ld-2.23.so
+    7f07389cb000-7f07389cc000 rw-p 00026000 08:01 486                        /lib/x86_64-linux-gnu/ld-2.23.so
+    7f07389cc000-7f07389cd000 rw-p 00000000 00:00 0 
+    7ffc535bf000-7ffc535e0000 rw-p 00000000 00:00 0                          [stack]
+    7ffc535e1000-7ffc535e3000 r--p 00000000 00:00 0                          [vvar]
+    7ffc535e3000-7ffc535e5000 r-xp 00000000 00:00 0                          [vdso]
     ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0                  [vsyscall]
     timeout: the monitored command dumped core
     
     ========================
     ./hhtest -l
-    Aborted
-    *** Error in `./hhtest': free(): invalid pointer: 0x00000000021cd050 ***
+    *** Error in `./hhtest': free(): invalid pointer: 0x00000000016c5050 ***
     ======= Backtrace: =========
-    /lib/x86_64-linux-gnu/libc.so.6(+0x777e5)[0x7ff6258837e5]
-    /lib/x86_64-linux-gnu/libc.so.6(+0x8037a)[0x7ff62588c37a]
-    /lib/x86_64-linux-gnu/libc.so.6(cfree+0x4c)[0x7ff62589053c]
+    /lib/x86_64-linux-gnu/libc.so.6(+0x777e5)[0x7faf28da07e5]
+    /lib/x86_64-linux-gnu/libc.so.6(+0x8037a)[0x7faf28da937a]
+    /lib/x86_64-linux-gnu/libc.so.6(cfree+0x4c)[0x7faf28dad53c]
     ./hhtest[0x4014d1]
     ./hhtest[0x400b27]
-    /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0)[0x7ff62582c830]
+    /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0)[0x7faf28d49830]
     ./hhtest[0x400b89]
     ======= Memory map: ========
-    00400000-00403000 r-xp 00000000 08:01 422343                             /home/user/hhtest
-    00602000-00603000 r--p 00002000 08:01 422343                             /home/user/hhtest
-    00603000-00604000 rw-p 00003000 08:01 422343                             /home/user/hhtest
-    021cd000-021ee000 rw-p 00000000 00:00 0                                  [heap]
-    7ff620000000-7ff620021000 rw-p 00000000 00:00 0 
-    7ff620021000-7ff624000000 ---p 00000000 00:00 0 
-    7ff6255f6000-7ff62560c000 r-xp 00000000 08:01 536                        /lib/x86_64-linux-gnu/libgcc_s.so.1
-    7ff62560c000-7ff62580b000 ---p 00016000 08:01 536                        /lib/x86_64-linux-gnu/libgcc_s.so.1
-    7ff62580b000-7ff62580c000 rw-p 00015000 08:01 536                        /lib/x86_64-linux-gnu/libgcc_s.so.1
-    7ff62580c000-7ff6259cc000 r-xp 00000000 08:01 510                        /lib/x86_64-linux-gnu/libc-2.23.so
-    7ff6259cc000-7ff625bcc000 ---p 001c0000 08:01 510                        /lib/x86_64-linux-gnu/libc-2.23.so
-    7ff625bcc000-7ff625bd0000 r--p 001c0000 08:01 510                        /lib/x86_64-linux-gnu/libc-2.23.so
-    7ff625bd0000-7ff625bd2000 rw-p 001c4000 08:01 510                        /lib/x86_64-linux-gnu/libc-2.23.so
-    7ff625bd2000-7ff625bd6000 rw-p 00000000 00:00 0 
-    7ff625bd6000-7ff625cde000 r-xp 00000000 08:01 551                        /lib/x86_64-linux-gnu/libm-2.23.so
-    7ff625cde000-7ff625edd000 ---p 00108000 08:01 551                        /lib/x86_64-linux-gnu/libm-2.23.so
-    7ff625edd000-7ff625ede000 r--p 00107000 08:01 551                        /lib/x86_64-linux-gnu/libm-2.23.so
-    7ff625ede000-7ff625edf000 rw-p 00108000 08:01 551                        /lib/x86_64-linux-gnu/libm-2.23.so
-    7ff625edf000-7ff625f05000 r-xp 00000000 08:01 486                        /lib/x86_64-linux-gnu/ld-2.23.so
-    7ff6260f2000-7ff6260f5000 rw-p 00000000 00:00 0 
-    7ff626101000-7ff626104000 rw-p 00000000 00:00 0 
-    7ff626104000-7ff626105000 r--p 00025000 08:01 486                        /lib/x86_64-linux-gnu/ld-2.23.so
-    7ff626105000-7ff626106000 rw-p 00026000 08:01 486                        /lib/x86_64-linux-gnu/ld-2.23.so
-    7ff626106000-7ff626107000 rw-p 00000000 00:00 0 
-    7ffcf35f0000-7ffcf3611000 rw-p 00000000 00:00 0                          [stack]
-    7ffcf379f000-7ffcf37a1000 r--p 00000000 00:00 0                          [vvar]
-    7ffcf37a1000-7ffcf37a3000 r-xp 00000000 00:00 0                          [vdso]
+    00400000-00403000 r-xp 00000000 08:01 421324                             /home/user/hhtest
+    00602000-00603000 r--p 00002000 08:01 421324                             /home/user/hhtest
+    00603000-00604000 rw-p 00003000 08:01 421324                             /home/user/hhtest
+    016c5000-016e6000 rw-p 00000000 00:00 0                                  [heap]
+    7faf24000000-7faf24021000 rw-p 00000000 00:00 0 
+    7faf24021000-7faf28000000 ---p 00000000 00:00 0 
+    7faf28b13000-7faf28b29000 r-xp 00000000 08:01 536                        /lib/x86_64-linux-gnu/libgcc_s.so.1
+    7faf28b29000-7faf28d28000 ---p 00016000 08:01 536                        /lib/x86_64-linux-gnu/libgcc_s.so.1
+    7faf28d28000-7faf28d29000 rw-p 00015000 08:01 536                        /lib/x86_64-linux-gnu/libgcc_s.so.1
+    7faf28d29000-7faf28ee9000 r-xp 00000000 08:01 510                        /lib/x86_64-linux-gnu/libc-2.23.so
+    7faf28ee9000-7faf290e9000 ---p 001c0000 08:01 510                        /lib/x86_64-linux-gnu/libc-2.23.so
+    7faf290e9000-7faf290ed000 r--p 001c0000 08:01 510                        /lib/x86_64-linux-gnu/libc-2.23.so
+    7faf290ed000-7faf290ef000 rw-p 001c4000 08:01 510                        /lib/x86_64-linux-gnu/libc-2.23.so
+    7faf290ef000-7faf290f3000 rw-p 00000000 00:00 0 
+    7faf290f3000-7faf291fb000 r-xp 00000000 08:01 551                        /lib/x86_64-linux-gnu/libm-2.23.so
+    7faf291fb000-7faf293fa000 ---p 00108000 08:01 551                        /lib/x86_64-linux-gnu/libm-2.23.so
+    7faf293fa000-7faf293fb000 r--p 00107000 08:01 551                        /lib/x86_64-linux-gnu/libm-2.23.so
+    7faf293fb000-7faf293fc000 rw-p 00108000 08:01 551                        /lib/x86_64-linux-gnu/libm-2.23.so
+    7faf293fc000-7faf29422000 r-xp 00000000 08:01 486                        /lib/x86_64-linux-gnu/ld-2.23.so
+    7faf2960f000-7faf29612000 rw-p 00000000 00:00 0 
+    7faf2961e000-7faf29621000 rw-p 00000000 00:00 0 
+    7faf29621000-7faf29622000 r--p 00025000 08:01 486                        /lib/x86_64-linux-gnu/ld-2.23.so
+    7faf29622000-7faf29623000 rw-p 00026000 08:01 486                        /lib/x86_64-linux-gnu/ld-2.23.so
+    7faf29623000-7faf29624000 rw-p 00000000 00:00 0 
+    7fffa3fde000-7fffa3fff000 rw-p 00000000 00:00 0                          [stack]
+    7fffa4060000-7fffa4062000 r--p 00000000 00:00 0                          [vvar]
+    7fffa4062000-7fffa4064000 r-xp 00000000 00:00 0                          [vdso]
     ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0                  [vsyscall]
     timeout: the monitored command dumped core
     hhtests complete. Check the results to see if they look OK.
@@ -398,5 +397,5 @@ Report for commit SHA: b1d583a2f7c43546e3a9b004668d39fd191171a9
 
 Heavy hitter marks: 0.0/20
 
-Total score: (16/38) * 80.0 + 0.0 = 34.0/100
+Total score: (20/38) * 80.0 + 0.0 = 42.0/100
 
