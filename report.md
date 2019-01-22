@@ -1,11 +1,18 @@
 ## COMP0019 CW2 Grade Report
-Report for commit SHA: 056ad54ea56fa7564606ab26395d257bb63c6802
+Report for commit SHA: d277d7ba3a57c97ea5c82f9a99cd35d184989cbb
 
 ### Output
 
 
       CLEAN 
       COMPILE cs0019.c
+    cs0019.c: In function ‘cs0019_free’:
+    cs0019.c:150:15: warning: comparison of distinct pointer types lacks a cast
+           if (ptr < myHeap_min || ptr > myHeap_max) {
+                   ^
+    cs0019.c:150:35: warning: comparison of distinct pointer types lacks a cast
+           if (ptr < myHeap_min || ptr > myHeap_max) {
+                                       ^
     cs0019.c: In function ‘search_forSize’:
     cs0019.c:99:3: warning: control reaches end of non-void function [-Wreturn-type]
        }
@@ -106,18 +113,9 @@ Report for commit SHA: 056ad54ea56fa7564606ab26395d257bb63c6802
     test014 OK
     test015 OK
     test016 OK
-    test017 FAIL: Unexpected output starting on line 1
-      test017.c:12: Expected `MEMORY BUG???: invalid free of pointer ???, not in heap`
-      output:1: Got `malloc count: active          0   total          0   fail          0
-                     malloc size:  active          0   total          0   fail          0`
-    test018 FAIL: Unexpected output starting on line 1
-      test018.c:19: Expected `MEMORY BUG???: invalid free of pointer ???, not in heap`
-      output:1: Got `malloc count: active          5   total         10   fail          0
-                     malloc size:  active         40   total         55   fail          0`
-    test019 FAIL: Unexpected output starting on line 1
-      test019.c:13: Expected `MEMORY BUG???: invalid free of pointer ???, not in heap`
-      output:1: Got `malloc count: active          0   total          0   fail          0
-                     malloc size:  active          0   total          0   fail          0`
+    test017 OK
+    test018 OK
+    test019 OK
     test020 FAIL: Unexpected output starting on line 1
       test020.c:14: Expected `MEMORY BUG???: invalid free of pointer ???`
       output:1: Got `malloc count: active          0   total          1   fail          0
@@ -142,16 +140,13 @@ Report for commit SHA: 056ad54ea56fa7564606ab26395d257bb63c6802
       test025.c:13: Expected `MEMORY BUG???: invalid ??{realloc|free}?? of pointer ???`
       output:1: Got `malloc count: active          2   total          2   fail          0
                      malloc size:  active       4001   total       4001   fail          0`
-    test026 FAIL: Missing output starting on line 0
-      test026.c:13: Expected `MEMORY BUG???: invalid ??{realloc|free}?? of pointer ???`
+    test026 OK
     test027 FAIL: Unexpected output starting on line 1
       test027.c:13: Expected `MEMORY BUG???: invalid ??{realloc|free}?? of pointer ???`
       output:1: Got `malloc count: active          2   total          2   fail          0
                      malloc size:  active       4005   total       4005   fail          0`
-    test028 FAIL: Unexpected output starting on line 1
+    test028 FAIL: Missing output starting on line 0
       test028.c:16: Expected `MEMORY BUG???: detected wild write during free of pointer ???`
-      output:1: Got `malloc count: active          0   total          1   fail          0
-                     malloc size:  active          0   total         40   fail          0`
     test029 FAIL: Unexpected output starting on line 1
       test029.c:17: Expected `MEMORY BUG???: detected wild write during free of pointer ???`
       output:1: Got `malloc count: active          0   total          1   fail          0
@@ -160,9 +155,44 @@ Report for commit SHA: 056ad54ea56fa7564606ab26395d257bb63c6802
       test030.c:16: Expected `MEMORY BUG???: detected wild write during free of pointer ???`
       output:1: Got `malloc count: active          0   total          1   fail          0
                      malloc size:  active          0   total          3   fail          0`
-    test031 OK
-    test032 FAIL: Missing output starting on line 1
-      test032.c:40: Expected `LEAK CHECK: test???.c:18: allocated object ??pointer?? with size ??size??`
+    test031 FAIL: Unexpected output starting on line 1
+      test031.c:33: Expected `OK`
+      output:1: Got `MEMORY BUG???: invalid free of pointer ???, not in heap
+                     MEMORY BUG???: invalid free of pointer ???, not in heap
+                     MEMORY BUG???: invalid free of pointer ???, not in heap
+                     MEMORY BUG???: invalid free of pointer ???, not in heap
+                     MEMORY BUG???: invalid free of pointer ???, not in heap
+                     MEMORY BUG???: invalid free of pointer ???, not in heap
+                     MEMORY BUG???: invalid free of pointer ???, not in heap
+                     MEMORY BUG???: invalid free of pointer ???, not in heap
+                     MEMORY BUG???: invalid free of pointer ???, not in heap
+                     MEMORY BUG???: invalid free of pointer ???, not in heap
+                     MEMORY BUG???: invalid free of pointer ???, not in heap
+                     MEMORY BUG???: invalid free of pointer ???, not in heap
+                     MEMORY BUG???: invalid free of pointer ???, not in heap
+                     MEMORY BUG???: invalid free of pointer ???, not in heap
+                     MEMORY BUG???: invalid free of pointer ???, not in heap
+                     MEMORY BUG???: invalid free of pointer ???, not in heap
+                     OK`
+    test032 FAIL: Unexpected output starting on line 1
+      test032.c:39: Expected `EXPECTED LEAK: ??{0x\w*}=pointer?? with size ??{\d+}=size??`
+      output:1: Got `MEMORY BUG???: invalid free of pointer ???, not in heap
+                     MEMORY BUG???: invalid free of pointer ???, not in heap
+                     MEMORY BUG???: invalid free of pointer ???, not in heap
+                     MEMORY BUG???: invalid free of pointer ???, not in heap
+                     MEMORY BUG???: invalid free of pointer ???, not in heap
+                     MEMORY BUG???: invalid free of pointer ???, not in heap
+                     MEMORY BUG???: invalid free of pointer ???, not in heap
+                     MEMORY BUG???: invalid free of pointer ???, not in heap
+                     MEMORY BUG???: invalid free of pointer ???, not in heap
+                     MEMORY BUG???: invalid free of pointer ???, not in heap
+                     MEMORY BUG???: invalid free of pointer ???, not in heap
+                     MEMORY BUG???: invalid free of pointer ???, not in heap
+                     MEMORY BUG???: invalid free of pointer ???, not in heap
+                     MEMORY BUG???: invalid free of pointer ???, not in heap
+                     MEMORY BUG???: invalid free of pointer ???, not in heap
+                     MEMORY BUG???: invalid free of pointer ???, not in heap
+                     EXPECTED LEAK: 0x771820 with size 8`
     test033 FAIL: Missing output starting on line 0
       test033.c:31: Expected `LEAK CHECK: test???.c:10: allocated object ??{\w+}?? with size 11`
     test034 FAIL: Unexpected output starting on line 1
@@ -177,12 +207,9 @@ Report for commit SHA: 056ad54ea56fa7564606ab26395d257bb63c6802
       test036.c:20: Expected `MEMORY BUG???: ??? free of pointer ???`
       output:1: Got `malloc count: active          2   total          4   fail          0
                      malloc size:  active       3350   total       3450   fail          0`
-    test037 FAIL: Unexpected output starting on line 1
-      test037.c:13: Expected `malloc count: active          0   total          0   fail          1`
-      output:1: Got `malloc count: active          1   total          1   fail          0
-                     malloc size:  active 12884901890   total 12884901890   fail          0`
+    test037 OK
     test038 OK
-    18 of 38 tests passed
+    22 of 38 tests passed
     make: 'hhtest' is up to date.
     ./hhtest 0
     
@@ -205,5 +232,5 @@ Report for commit SHA: 056ad54ea56fa7564606ab26395d257bb63c6802
 
 Heavy hitter marks: 0.0/20
 
-Total score: (18/38) * 80.0 + 0.0 = 38.0/100
+Total score: (22/38) * 80.0 + 0.0 = 46.0/100
 
