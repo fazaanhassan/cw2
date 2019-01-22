@@ -21,7 +21,7 @@ static unsigned long long int myNfail = 0;
 static unsigned long long int myNTfail_size = 0;
 static char *myHeap_min;
 static char *myHeap_max;
-static unsigned long long int structSize;
+// static unsigned long long int structSize;
 static unsigned int moreThanOnce = 0;
 size_t very_large_size = (size_t)-1 - 150;
 size_t very_large_size_less = (size_t)-1;
@@ -29,7 +29,7 @@ size_t very_large_nmemb = (size_t)-1 / 8 + 2;
 
 struct Node {
     size_t allocationSize;
-    char *currentPtr;
+    int *currentPtr;
     struct Node *next;
 };
 
@@ -63,13 +63,20 @@ void delete_node(void *ptr) {
     while(myNode!=NULL) {
         if(myNode->currentPtr==ptr) {
       
-          myNTotal_active_size -= myNode->allocationSize;
-          myNactive--;
-            if(previous==NULL)
+         
+            if(previous==NULL) {
                 head = myNode->next;
-            else 
-                previous->next = myNode->next;
-            break;
+            }
+            else {
+               previous->next = myNode->next;
+            }
+
+
+          free(ptr);
+          myNTotal_active_size -= myNode->allocationSize;
+          if (myNactive > 0) myNactive--;
+          free(myNode); 
+          break;
         }
 
         previous = myNode;
@@ -77,22 +84,19 @@ void delete_node(void *ptr) {
     }
 }
 
-size_t search_node(void *ptr) {
+size_t search_forSize(void *ptr) {
     node *myNode = head;
-    node *previous=NULL;
 
+    while(myNode != NULL) {
         if(myNode->currentPtr==ptr) {
-            if(previous==NULL)
-                head = myNode->next;
-            else 
-                previous->next = myNode->next;
 
             return myNode->allocationSize;
         }
 
-        previous = myNode;
         myNode = myNode->next;
     }
+
+  }
 
 
 int linkedListStart = 0;
@@ -143,9 +147,12 @@ void cs0019_free(void *ptr, const char *file, int line) {
   if (ptr == NULL) {
     return;
   }
-  delete_node(ptr);
+  else {
 
-  base_free(ptr);
+      delete_node(ptr);
+  
+  }
+  return;
 }
 
 /// cs0019_realloc(ptr, sz, file, line)
@@ -161,9 +168,9 @@ void *cs0019_realloc(void *ptr, size_t sz, const char *file, int line) {
     new_ptr = cs0019_malloc(sz, file, line);
   }
   if (ptr && new_ptr) {
-      size_t myOriginalPtrSize = search_node(ptr);
+      size_t myOriginalPtrSize = search_forSize(ptr);
       if (sz > myOriginalPtrSize) {
-        memcpy(new_ptr, ptr, myNTotal_active_size);
+        memcpy(new_ptr, ptr, myOriginalPtrSize);
       }
       else {
         memcpy(new_ptr,ptr, sz);
