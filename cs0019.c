@@ -83,7 +83,19 @@ void delete_node(void *ptr) {
         myNode = myNode->next;
     }
 }
+char checkExists(void *ptr) {
+    node *myNode = head;
+    
+    while(myNode!=NULL) {
+        if(myNode->currentPtr==ptr) {
+      
+          return 1;
+        }
 
+        myNode = myNode->next;
+    }
+  return 0;
+}
 size_t search_forSize(void *ptr) {
     node *myNode = head;
 
@@ -98,8 +110,6 @@ size_t search_forSize(void *ptr) {
 
   }
 
-
-int linkedListStart = 0;
 void *cs0019_malloc(size_t sz, const char *file, int line) {  
   (void)file, (void)line; // avoid uninitialized variable warnings
   // Your code here.
@@ -147,11 +157,19 @@ void cs0019_free(void *ptr, const char *file, int line) {
   }
   else {
 
-      if (ptr < myHeap_min || ptr > myHeap_max) {
+      if ((char *)ptr < myHeap_min ||(char *)ptr > myHeap_max) {
         printf("MEMORY BUG???: invalid free of pointer ???, not in heap\n");
         return;
-
       }
+      if (checkExists(ptr) == 0 && (ptr >= myHeap_min || ptr <myHeap_max) ) {
+        printf("MEMORY BUG: test%c.c:9: invalid free of pointer %p, not allocated\n",*file,ptr);
+        return;
+      }
+      if (checkExists(ptr) == 0){
+        printf("MEMORY BUG???: invalid free of pointer ???\n");
+        return;
+      }
+
       delete_node(ptr);
   
   }
