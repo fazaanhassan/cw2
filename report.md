@@ -1,5 +1,5 @@
 ## COMP0019 CW2 Grade Report
-Report for commit SHA: d277d7ba3a57c97ea5c82f9a99cd35d184989cbb
+Report for commit SHA: 54979b2532968d9453b44709db689719d30e52f2
 
 ### Output
 
@@ -7,14 +7,14 @@ Report for commit SHA: d277d7ba3a57c97ea5c82f9a99cd35d184989cbb
       CLEAN 
       COMPILE cs0019.c
     cs0019.c: In function ‘cs0019_free’:
-    cs0019.c:150:15: warning: comparison of distinct pointer types lacks a cast
-           if (ptr < myHeap_min || ptr > myHeap_max) {
-                   ^
-    cs0019.c:150:35: warning: comparison of distinct pointer types lacks a cast
-           if (ptr < myHeap_min || ptr > myHeap_max) {
-                                       ^
+    cs0019.c:164:41: warning: comparison of distinct pointer types lacks a cast
+           if (checkExists(ptr) == 0 && (ptr >= myHeap_min || ptr <myHeap_max) ) {
+                                             ^
+    cs0019.c:164:62: warning: comparison of distinct pointer types lacks a cast
+           if (checkExists(ptr) == 0 && (ptr >= myHeap_min || ptr <myHeap_max) ) {
+                                                                  ^
     cs0019.c: In function ‘search_forSize’:
-    cs0019.c:99:3: warning: control reaches end of non-void function [-Wreturn-type]
+    cs0019.c:111:3: warning: control reaches end of non-void function [-Wreturn-type]
        }
        ^
       COMPILE basealloc.c
@@ -116,35 +116,17 @@ Report for commit SHA: d277d7ba3a57c97ea5c82f9a99cd35d184989cbb
     test017 OK
     test018 OK
     test019 OK
-    test020 FAIL: Unexpected output starting on line 1
-      test020.c:14: Expected `MEMORY BUG???: invalid free of pointer ???`
-      output:1: Got `malloc count: active          0   total          1   fail          0
-                     malloc size:  active          0   total       2001   fail          0`
-    test021 FAIL: Unexpected output starting on line 1
-      test021.c:13: Expected `MEMORY BUG???: invalid free of pointer ???, not allocated`
-      output:1: Got `malloc count: active          1   total          1   fail          0
-                     malloc size:  active       2001   total       2001   fail          0`
-    test022 FAIL: Unexpected output starting on line 1
-      test022.c:13: Expected `MEMORY BUG: test???.c:9: invalid free of pointer ???, not allocated`
-      output:1: Got `malloc count: active          1   total          1   fail          0
-                     malloc size:  active       2001   total       2001   fail          0`
-    test023 FAIL: Unexpected output starting on line 1
-      test023.c:13: Expected `MEMORY BUG: test???.c:9: invalid free of pointer ???, not allocated`
-      output:1: Got `malloc count: active          1   total          1   fail          0
-                     malloc size:  active       2001   total       2001   fail          0`
+    test020 OK
+    test021 OK
+    test022 OK
+    test023 OK
     test024 FAIL: Unexpected output starting on line 1
       test024.c:18: Expected `malloc count: active          0   total         10   fail          0`
       output:1: Got `malloc count: active          9   total         10   fail          0
                      malloc size:  active        360   total        400   fail          0`
-    test025 FAIL: Unexpected output starting on line 1
-      test025.c:13: Expected `MEMORY BUG???: invalid ??{realloc|free}?? of pointer ???`
-      output:1: Got `malloc count: active          2   total          2   fail          0
-                     malloc size:  active       4001   total       4001   fail          0`
+    test025 OK
     test026 OK
-    test027 FAIL: Unexpected output starting on line 1
-      test027.c:13: Expected `MEMORY BUG???: invalid ??{realloc|free}?? of pointer ???`
-      output:1: Got `malloc count: active          2   total          2   fail          0
-                     malloc size:  active       4005   total       4005   fail          0`
+    test027 OK
     test028 FAIL: Missing output starting on line 0
       test028.c:16: Expected `MEMORY BUG???: detected wild write during free of pointer ???`
     test029 FAIL: Unexpected output starting on line 1
@@ -192,24 +174,21 @@ Report for commit SHA: d277d7ba3a57c97ea5c82f9a99cd35d184989cbb
                      MEMORY BUG???: invalid free of pointer ???, not in heap
                      MEMORY BUG???: invalid free of pointer ???, not in heap
                      MEMORY BUG???: invalid free of pointer ???, not in heap
-                     EXPECTED LEAK: 0x771820 with size 8`
+                     EXPECTED LEAK: 0x1daf820 with size 8`
     test033 FAIL: Missing output starting on line 0
       test033.c:31: Expected `LEAK CHECK: test???.c:10: allocated object ??{\w+}?? with size 11`
-    test034 FAIL: Unexpected output starting on line 1
-      test034.c:13: Expected `MEMORY BUG: test???.c:9: invalid free of pointer ???, not allocated`
-      output:1: Got `malloc count: active          1   total          1   fail          0
+    test034 FAIL: Unexpected output starting on line 2
+      test034.c:14: Expected `  test???.c:8: ??? is 128 bytes inside a 2001 byte region allocated here`
+      output:2: Got `malloc count: active          1   total          1   fail          0
                      malloc size:  active       2001   total       2001   fail          0`
-    test035 FAIL: Unexpected output starting on line 1
-      test035.c:18: Expected `MEMORY BUG???: invalid free of pointer ???, not allocated`
-      output:1: Got `malloc count: active          4   total          4   fail          0
-                     malloc size:  active       3450   total       3450   fail          0`
+    test035 OK
     test036 FAIL: Unexpected output starting on line 1
       test036.c:20: Expected `MEMORY BUG???: ??? free of pointer ???`
       output:1: Got `malloc count: active          2   total          4   fail          0
                      malloc size:  active       3350   total       3450   fail          0`
     test037 OK
     test038 OK
-    22 of 38 tests passed
+    29 of 38 tests passed
     make: 'hhtest' is up to date.
     ./hhtest 0
     
@@ -232,5 +211,5 @@ Report for commit SHA: d277d7ba3a57c97ea5c82f9a99cd35d184989cbb
 
 Heavy hitter marks: 0.0/20
 
-Total score: (22/38) * 80.0 + 0.0 = 46.0/100
+Total score: (29/38) * 80.0 + 0.0 = 61.0/100
 
