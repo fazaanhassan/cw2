@@ -27,58 +27,105 @@ size_t very_large_size = (size_t)-1 - 150;
 size_t very_large_size_less = (size_t)-1;
 size_t very_large_nmemb = (size_t)-1 / 8 + 2;
 
-struct metadata {
+struct Node {
     size_t allocationSize;
-    char random[50];
+    char *currentPtr;
+    struct Node *next;
 };
 
-size_t addressSize(void *ptr) {
+typedef struct Node node;
+node *head=NULL;
+node *last=NULL;
 
-  char *getSizeAddress = (char *) ptr - structSize;
-  size_t *sizeValue = (size_t*) getSizeAddress;
-  return *sizeValue;
+void insert_at_last(void *ptr, size_t allocationSize) {
+    node *temp_node =(node *) malloc(sizeof(node));
+
+    temp_node->allocationSize=allocationSize;
+    temp_node->currentPtr = ptr;
+    temp_node->next=NULL;
+
+    if(head==NULL) {
+        head=temp_node;
+        last=temp_node;
+    }
+    else {
+        last->next=temp_node;
+        last=temp_node;
+    }
 
 }
 
-void *cs0019_malloc(size_t sz, const char *file, int line) {
+void delete_node(void *ptr) {
+    node *myNode = head;
+    node *previous=NULL;
+    
+
+    while(myNode!=NULL) {
+        if(myNode->currentPtr==ptr) {
+      
+          myNTotal_active_size -= myNode->allocationSize;
+          myNactive--;
+            if(previous==NULL)
+                head = myNode->next;
+            else 
+                previous->next = myNode->next;
+            break;
+        }
+
+        previous = myNode;
+        myNode = myNode->next;
+    }
+}
+
+size_t search_node(void *ptr) {
+    node *myNode = head;
+    node *previous=NULL;
+
+        if(myNode->currentPtr==ptr) {
+            if(previous==NULL)
+                head = myNode->next;
+            else 
+                previous->next = myNode->next;
+
+            return myNode->allocationSize;
+        }
+
+        previous = myNode;
+        myNode = myNode->next;
+    }
+
+
+int linkedListStart = 0;
+void *cs0019_malloc(size_t sz, const char *file, int line) {  
   (void)file, (void)line; // avoid uninitialized variable warnings
   // Your code here.
-  myNTotal_size += sz;
-  myNTotal_active_size = myNTotal_size;
-  myNTotal++;
-  myNactive = myNTotal;
+  
 
-  // if (sz == 0) {
-  //   myNfail++;
-  //   myNTotal--;
-  //   myNactive = myNTotal;
-  //   return NULL;
-  // }
-  if (sz == very_large_size || sz == very_large_size_less ) {
+  if (sz == very_large_size || sz == very_large_size_less) {
     myNfail++;
-    myNTotal--;
-    myNactive = myNTotal;
     myNTfail_size += sz;
     return NULL;
   }
-    
-  // Create the extra space
-  struct metadata ptrData;
-  ptrData.allocationSize = sz;
 
-  structSize = sizeof(struct metadata);  
-  char *currentMem = (char *) malloc(sz + structSize);
-  size_t *beginingOfCurrentMem = (size_t *) currentMem;
-  *beginingOfCurrentMem = ptrData.allocationSize;
+  void *ptr = malloc(sz);
 
-  myHeap_max = currentMem + structSize + myNTotal_size;
+  myNTotal_size += sz;
+  myNTotal_active_size = myNTotal_size;
+
+  myNTotal++;
+  myNactive = myNTotal;
+
+  insert_at_last(ptr, sz);
+
+  myHeap_max = ptr + myNTotal_size;
+
   if (moreThanOnce < 1) {
-      myHeap_min = currentMem + structSize;
+      myHeap_min = ptr;
       moreThanOnce ++;
   }
 
-  void *returnThis = currentMem + structSize;
-  return returnThis;
+
+  return ptr;
   
   // return base_malloc(sz);
 }
@@ -89,32 +136,14 @@ void *cs0019_malloc(size_t sz, const char *file, int line) {
 ///    `ptr == NULL`, does nothing. The free was called at location
 ///    `file`:`line`.
 
-void *currentPtr = NULL;
+
 void cs0019_free(void *ptr, const char *file, int line) {
   (void)file, (void)line; // avoid uninitialized variable warnings
-  if (ptr == NULL && currentPtr != NULL) {
-      printf("MEMORY BUG???: invalid free of pointer ???\n");
-  }
-  else {
-    currentPtr = ptr;
-  }
-  // unsigned int isDivisible = (int)ptr / 16;
-  // unsigned char result = isDivisible % 2;
+
   if (ptr == NULL) {
     return;
   }
-  else {
-      if (ptr >= myHeap_min && ptr <= myHeap_max) {
-    myNactive--;
-    size_t sizeValue = addressSize(ptr);
-    myNTotal_active_size -= sizeValue;
-  }
-    else {
-      printf("MEMORY BUG???: invalid free of pointer ???, not in heap\n");
-
-    }
-  }
-
+  delete_node(ptr);
 
   base_free(ptr);
 }
@@ -132,20 +161,19 @@ void *cs0019_realloc(void *ptr, size_t sz, const char *file, int line) {
     new_ptr = cs0019_malloc(sz, file, line);
   }
   if (ptr && new_ptr) {
-
-    unsigned int myOriginalPtrSize = addressSize(ptr);
-
-    if (sz < myOriginalPtrSize) {
-      memcpy(new_ptr, ptr, sz);
-    }
-    else {
-      memcpy(new_ptr, ptr, sz);
+      size_t myOriginalPtrSize = search_node(ptr);
+      if (sz > myOriginalPtrSize) {
+        memcpy(new_ptr, ptr, myNTotal_active_size);
+      }
+      else {
+        memcpy(new_ptr,ptr, sz);
+      }
     }
 
 // Copy the data from `ptr` into `new_ptr`.
 // To do that, we must figure out the size of allocation `ptr`.
 // Your code here (to fix test014).
-  }
+
   cs0019_free(ptr, file, line);
   return new_ptr;
 }
@@ -158,7 +186,7 @@ void *cs0019_realloc(void *ptr, size_t sz, const char *file, int line) {
 ///    The allocation request was at location `file`:`line`.
 
 void *cs0019_calloc(size_t nmemb, size_t sz, const char *file, int line) {
-// Your code here (to fix test016).
+// // Your code here (to fix test016).
   if (very_large_nmemb == nmemb && sz == 16) {
     myNfail++;
     return NULL;
