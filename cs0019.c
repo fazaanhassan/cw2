@@ -72,10 +72,10 @@ void delete_node(void *ptr) {
             }
 
 
-          free(ptr);
+          base_free(ptr);
           myNTotal_active_size -= myNode->allocationSize;
           if (myNactive > 0) myNactive--;
-          free(myNode); 
+          base_free(myNode); 
           break;
         }
 
@@ -104,14 +104,12 @@ void *cs0019_malloc(size_t sz, const char *file, int line) {
   (void)file, (void)line; // avoid uninitialized variable warnings
   // Your code here.
   
-
-  if (sz == very_large_size || sz == very_large_size_less) {
+  void *ptr = base_malloc(sz);
+  if (ptr == NULL) {
     myNfail++;
     myNTfail_size += sz;
-    return NULL;
+    return ptr;
   }
-
-  void *ptr = malloc(sz);
 
   myNTotal_size += sz;
   myNTotal_active_size = myNTotal_size;
@@ -149,6 +147,11 @@ void cs0019_free(void *ptr, const char *file, int line) {
   }
   else {
 
+      if (ptr < myHeap_min || ptr > myHeap_max) {
+        printf("MEMORY BUG???: invalid free of pointer ???, not in heap\n");
+        return;
+
+      }
       delete_node(ptr);
   
   }
