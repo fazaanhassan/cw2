@@ -37,7 +37,7 @@ typedef struct Node node;
 node *head=NULL;
 node *last=NULL;
 
-void insert_at_last(void *ptr, size_t allocationSize) {
+void addNode(void *ptr, size_t allocationSize) {
     node *temp_node =(node *) malloc(sizeof(node));
 
     temp_node->allocationSize=allocationSize;
@@ -54,12 +54,12 @@ void insert_at_last(void *ptr, size_t allocationSize) {
     }
 
 }
-
-void delete_node(void *ptr) {
+int counter = 0;
+void deleteNode(void *ptr) {
     node *myNode = head;
     node *previous=NULL;
     
-
+    // printf("myNactive is: %llu", myNactive);
     while(myNode!=NULL) {
         if(myNode->currentPtr==ptr) {
       
@@ -71,17 +71,19 @@ void delete_node(void *ptr) {
                previous->next = myNode->next;
             }
 
-
-          base_free(ptr);
           myNTotal_active_size -= myNode->allocationSize;
-          if (myNactive > 0) myNactive--;
-          base_free(myNode); 
+          myNactive--;
+          base_free(ptr);
+          base_free(myNode);
+          // printf("b4 activeaaa %llu \n", myNactive);
+ 
           break;
         }
 
         previous = myNode;
         myNode = myNode->next;
     }
+
 }
 char checkExists(void *ptr) {
     node *myNode = head;
@@ -109,7 +111,7 @@ size_t search_forSize(void *ptr) {
     }
 
   }
-
+int checkOverWritten(void *ptr) {}
 void *cs0019_malloc(size_t sz, const char *file, int line) {  
   (void)file, (void)line; // avoid uninitialized variable warnings
   // Your code here.
@@ -122,12 +124,12 @@ void *cs0019_malloc(size_t sz, const char *file, int line) {
   }
 
   myNTotal_size += sz;
-  myNTotal_active_size = myNTotal_size;
+  myNTotal_active_size += sz;
 
   myNTotal++;
-  myNactive = myNTotal;
+  myNactive++;
 
-  insert_at_last(ptr, sz);
+  addNode(ptr, sz);
 
   myHeap_max = ptr + myNTotal_size;
 
@@ -135,7 +137,6 @@ void *cs0019_malloc(size_t sz, const char *file, int line) {
       myHeap_min = ptr;
       moreThanOnce ++;
   }
-
 
   return ptr;
   
@@ -156,6 +157,10 @@ void cs0019_free(void *ptr, const char *file, int line) {
     return;
   }
   else {
+      if(checkOverWritten(ptr) == 1) {
+        printf("MEMORY BUG???: detected wild write during free of pointer ???\n");
+        return;
+      }
 
       if ((char *)ptr < myHeap_min ||(char *)ptr > myHeap_max) {
         printf("MEMORY BUG???: invalid free of pointer ???, not in heap\n");
@@ -170,8 +175,7 @@ void cs0019_free(void *ptr, const char *file, int line) {
         return;
       }
 
-      delete_node(ptr);
-  
+      deleteNode(ptr);
   }
   return;
 }
