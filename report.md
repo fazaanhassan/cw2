@@ -1,29 +1,30 @@
 ## COMP0019 CW2 Grade Report
-Report for commit SHA: cc5bf748e42b50d3b9509ad5d9638d57ef9a959c
+Report for commit SHA: 4fda5729ea95954560b39aa6dbe017dab60827e7
 
 ### Output
 
 
       CLEAN 
       COMPILE cs0019.c
-    cs0019.c: In function ‘checkOverWritten’:
-    cs0019.c:114:28: warning: unused parameter ‘ptr’ [-Wunused-parameter]
-     int checkOverWritten(void *ptr) {}
-                                ^
-    cs0019.c: In function ‘cs0019_free’:
-    cs0019.c:169:41: warning: comparison of distinct pointer types lacks a cast
-           if (checkExists(ptr) == 0 && (ptr >= myHeap_min || ptr <myHeap_max) ) {
-                                             ^
-    cs0019.c:169:62: warning: comparison of distinct pointer types lacks a cast
-           if (checkExists(ptr) == 0 && (ptr >= myHeap_min || ptr <myHeap_max) ) {
-                                                                  ^
+    cs0019.c: In function ‘cs0019_malloc’:
+    cs0019.c:155:20: warning: passing argument 3 of ‘addNode’ discards ‘const’ qualifier from pointer target type [-Wdiscarded-qualifiers]
+       addNode(ptr, sz, file, line);
+                        ^
+    cs0019.c:42:6: note: expected ‘char *’ but argument is of type ‘const char *’
+     void addNode(void *ptr, size_t allocationSize, char *file, int line ) {
+          ^
+    cs0019.c: In function ‘cs0019_printleakreport’:
+    cs0019.c:302:14: warning: unknown escape sequence: '\w'
+           printf("LEAK CHECK: test???.c:%d: allocated object ??{\w+}?? with size %d \n", myNode->line, myNode->allocationSize);
+                  ^
+    cs0019.c:302:14: warning: format ‘%d’ expects argument of type ‘int’, but argument 3 has type ‘size_t {aka long unsigned int}’ [-Wformat=]
     cs0019.c: In function ‘search_forSize’:
-    cs0019.c:113:3: warning: control reaches end of non-void function [-Wreturn-type]
+    cs0019.c:117:3: warning: control reaches end of non-void function [-Wreturn-type]
        }
        ^
     cs0019.c: In function ‘checkOverWritten’:
-    cs0019.c:114:1: warning: control reaches end of non-void function [-Wreturn-type]
-     int checkOverWritten(void *ptr) {}
+    cs0019.c:136:1: warning: control reaches end of non-void function [-Wreturn-type]
+     }
      ^
       COMPILE basealloc.c
       COMPILE test001.c
@@ -134,14 +135,8 @@ Report for commit SHA: cc5bf748e42b50d3b9509ad5d9638d57ef9a959c
     test027 OK
     test028 FAIL: Missing output starting on line 0
       test028.c:16: Expected `MEMORY BUG???: detected wild write during free of pointer ???`
-    test029 FAIL: Unexpected output starting on line 1
-      test029.c:17: Expected `MEMORY BUG???: detected wild write during free of pointer ???`
-      output:1: Got `malloc count: active          0   total          1   fail          0
-                     malloc size:  active          0   total         63   fail          0`
-    test030 FAIL: Unexpected output starting on line 1
-      test030.c:16: Expected `MEMORY BUG???: detected wild write during free of pointer ???`
-      output:1: Got `malloc count: active          0   total          1   fail          0
-                     malloc size:  active          0   total          3   fail          0`
+    test029 OK
+    test030 OK
     test031 FAIL: Unexpected output starting on line 1
       test031.c:33: Expected `OK`
       output:1: Got `MEMORY BUG???: invalid free of pointer ???, not in heap
@@ -157,9 +152,19 @@ Report for commit SHA: cc5bf748e42b50d3b9509ad5d9638d57ef9a959c
                      MEMORY BUG???: invalid free of pointer ???, not in heap
                      MEMORY BUG???: invalid free of pointer ???, not in heap
                      MEMORY BUG???: invalid free of pointer ???, not in heap
-                     MEMORY BUG???: invalid free of pointer ???, not in heap
-                     MEMORY BUG???: invalid free of pointer ???, not in heap
-                     MEMORY BUG???: invalid free of pointer ???, not in heap
+                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
+                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
+                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
+                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
+                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
+                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
+                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
+                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
+                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
+                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
+                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
+                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
+                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
                      OK`
     test032 FAIL: Unexpected output starting on line 1
       test032.c:39: Expected `EXPECTED LEAK: ??{0x\w*}=pointer?? with size ??{\d+}=size??`
@@ -176,12 +181,30 @@ Report for commit SHA: cc5bf748e42b50d3b9509ad5d9638d57ef9a959c
                      MEMORY BUG???: invalid free of pointer ???, not in heap
                      MEMORY BUG???: invalid free of pointer ???, not in heap
                      MEMORY BUG???: invalid free of pointer ???, not in heap
-                     MEMORY BUG???: invalid free of pointer ???, not in heap
-                     MEMORY BUG???: invalid free of pointer ???, not in heap
-                     MEMORY BUG???: invalid free of pointer ???, not in heap
-                     EXPECTED LEAK: 0x15e1820 with size 8`
-    test033 FAIL: Missing output starting on line 0
+                     EXPECTED LEAK: 0xe65d20 with size 8
+                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
+                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
+                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
+                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
+                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
+                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
+                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
+                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
+                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
+                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
+                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
+                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
+                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
+                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 `
+    test033 FAIL: Unexpected output starting on line 1
       test033.c:31: Expected `LEAK CHECK: test???.c:10: allocated object ??{\w+}?? with size 11`
+      output:1: Got `LEAK CHECK: test???.c:10: allocated object ??{w+}?? with size 11 
+                     LEAK CHECK: test???.c:11: allocated object ??{w+}?? with size 12 
+                     LEAK CHECK: test???.c:13: allocated object ??{w+}?? with size 14 
+                     LEAK CHECK: test???.c:14: allocated object ??{w+}?? with size 15 
+                     LEAK CHECK: test???.c:15: allocated object ??{w+}?? with size 16 
+                     LEAK CHECK: test???.c:16: allocated object ??{w+}?? with size 17 
+                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 19 `
     test034 FAIL: Unexpected output starting on line 2
       test034.c:14: Expected `  test???.c:8: ??? is 128 bytes inside a 2001 byte region allocated here`
       output:2: Got `malloc count: active          1   total          1   fail          0
@@ -193,7 +216,7 @@ Report for commit SHA: cc5bf748e42b50d3b9509ad5d9638d57ef9a959c
                      malloc size:  active       3350   total       3450   fail          0`
     test037 OK
     test038 OK
-    30 of 38 tests passed
+    32 of 38 tests passed
     make: 'hhtest' is up to date.
     ./hhtest 0
     
@@ -216,5 +239,5 @@ Report for commit SHA: cc5bf748e42b50d3b9509ad5d9638d57ef9a959c
 
 Heavy hitter marks: 0.0/20
 
-Total score: (30/38) * 80.0 + 0.0 = 63.0/100
+Total score: (32/38) * 80.0 + 0.0 = 67.0/100
 
