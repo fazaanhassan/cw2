@@ -1,22 +1,30 @@
 ## COMP0019 CW2 Grade Report
-Report for commit SHA: 54979b2532968d9453b44709db689719d30e52f2
+Report for commit SHA: cc5bf748e42b50d3b9509ad5d9638d57ef9a959c
 
 ### Output
 
 
       CLEAN 
       COMPILE cs0019.c
+    cs0019.c: In function ‘checkOverWritten’:
+    cs0019.c:114:28: warning: unused parameter ‘ptr’ [-Wunused-parameter]
+     int checkOverWritten(void *ptr) {}
+                                ^
     cs0019.c: In function ‘cs0019_free’:
-    cs0019.c:164:41: warning: comparison of distinct pointer types lacks a cast
+    cs0019.c:169:41: warning: comparison of distinct pointer types lacks a cast
            if (checkExists(ptr) == 0 && (ptr >= myHeap_min || ptr <myHeap_max) ) {
                                              ^
-    cs0019.c:164:62: warning: comparison of distinct pointer types lacks a cast
+    cs0019.c:169:62: warning: comparison of distinct pointer types lacks a cast
            if (checkExists(ptr) == 0 && (ptr >= myHeap_min || ptr <myHeap_max) ) {
                                                                   ^
     cs0019.c: In function ‘search_forSize’:
-    cs0019.c:111:3: warning: control reaches end of non-void function [-Wreturn-type]
+    cs0019.c:113:3: warning: control reaches end of non-void function [-Wreturn-type]
        }
        ^
+    cs0019.c: In function ‘checkOverWritten’:
+    cs0019.c:114:1: warning: control reaches end of non-void function [-Wreturn-type]
+     int checkOverWritten(void *ptr) {}
+     ^
       COMPILE basealloc.c
       COMPILE test001.c
       LINK test001 
@@ -120,10 +128,7 @@ Report for commit SHA: 54979b2532968d9453b44709db689719d30e52f2
     test021 OK
     test022 OK
     test023 OK
-    test024 FAIL: Unexpected output starting on line 1
-      test024.c:18: Expected `malloc count: active          0   total         10   fail          0`
-      output:1: Got `malloc count: active          9   total         10   fail          0
-                     malloc size:  active        360   total        400   fail          0`
+    test024 OK
     test025 OK
     test026 OK
     test027 OK
@@ -174,7 +179,7 @@ Report for commit SHA: 54979b2532968d9453b44709db689719d30e52f2
                      MEMORY BUG???: invalid free of pointer ???, not in heap
                      MEMORY BUG???: invalid free of pointer ???, not in heap
                      MEMORY BUG???: invalid free of pointer ???, not in heap
-                     EXPECTED LEAK: 0x1daf820 with size 8`
+                     EXPECTED LEAK: 0x15e1820 with size 8`
     test033 FAIL: Missing output starting on line 0
       test033.c:31: Expected `LEAK CHECK: test???.c:10: allocated object ??{\w+}?? with size 11`
     test034 FAIL: Unexpected output starting on line 2
@@ -188,7 +193,7 @@ Report for commit SHA: 54979b2532968d9453b44709db689719d30e52f2
                      malloc size:  active       3350   total       3450   fail          0`
     test037 OK
     test038 OK
-    29 of 38 tests passed
+    30 of 38 tests passed
     make: 'hhtest' is up to date.
     ./hhtest 0
     
@@ -211,5 +216,5 @@ Report for commit SHA: 54979b2532968d9453b44709db689719d30e52f2
 
 Heavy hitter marks: 0.0/20
 
-Total score: (29/38) * 80.0 + 0.0 = 61.0/100
+Total score: (30/38) * 80.0 + 0.0 = 63.0/100
 
