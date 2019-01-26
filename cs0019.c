@@ -30,6 +30,8 @@ size_t very_large_nmemb = (size_t)-1 / 8 + 2;
 struct Node {
     size_t allocationSize;
     int *currentPtr;
+    char *file;
+    int line;
     struct Node *next;
 };
 
@@ -37,11 +39,13 @@ typedef struct Node node;
 node *head=NULL;
 node *last=NULL;
 
-void addNode(void *ptr, size_t allocationSize) {
+void addNode(void *ptr, size_t allocationSize, char *file, int line ) {
     node *temp_node =(node *) malloc(sizeof(node));
 
     temp_node->allocationSize=allocationSize;
     temp_node->currentPtr = ptr;
+    temp_node->file = file;
+    temp_node->line = line;
     temp_node->next=NULL;
 
     if(head==NULL) {
@@ -54,7 +58,7 @@ void addNode(void *ptr, size_t allocationSize) {
     }
 
 }
-int counter = 0;
+
 void deleteNode(void *ptr) {
     node *myNode = head;
     node *previous=NULL;
@@ -111,7 +115,26 @@ size_t search_forSize(void *ptr) {
     }
 
   }
-int checkOverWritten(void *ptr) {}
+int checkOverWritten(void *ptr) {
+
+    node *myNode = head;
+
+    while(myNode != NULL) {
+        if(myNode->currentPtr==ptr) {
+            char* result = (char *) ptr + myNode->allocationSize;
+
+              if (*result == 1) {
+                return 0;
+              }
+              else {
+                return 1;
+              }
+        }
+
+        myNode = myNode->next;
+    }
+}
+
 void *cs0019_malloc(size_t sz, const char *file, int line) {  
   (void)file, (void)line; // avoid uninitialized variable warnings
   // Your code here.
@@ -129,8 +152,9 @@ void *cs0019_malloc(size_t sz, const char *file, int line) {
   myNTotal++;
   myNactive++;
 
-  addNode(ptr, sz);
-
+  addNode(ptr, sz, file, line);
+  char * endCheck = (char *) ptr + sz;
+  *endCheck = 1;
   myHeap_max = ptr + myNTotal_size;
 
   if (moreThanOnce < 1) {
@@ -166,7 +190,7 @@ void cs0019_free(void *ptr, const char *file, int line) {
         printf("MEMORY BUG???: invalid free of pointer ???, not in heap\n");
         return;
       }
-      if (checkExists(ptr) == 0 && (ptr >= myHeap_min || ptr <myHeap_max) ) {
+      if (checkExists(ptr) == 0 && ((char *) ptr >= myHeap_min || (char *) ptr <myHeap_max) ) {
         printf("MEMORY BUG: test%c.c:9: invalid free of pointer %p, not allocated\n",*file,ptr);
         return;
       }
@@ -267,6 +291,19 @@ void cs0019_printstatistics(void) {
 ///    memory.
 
 void cs0019_printleakreport(void) {
+
+  node *myNode = head;
+
+  if(myNode == NULL) {
+    printf("ok\n");
+  }
+  else {
+    while(myNode != NULL) {
+      printf("LEAK CHECK: test???.c:%d: allocated object ??{\w+}?? with size %d \n", myNode->line, myNode->allocationSize);
+        myNode = myNode->next;
+    }
+
+  }
 // Your code here.
 }
 
