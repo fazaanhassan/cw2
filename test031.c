@@ -5,29 +5,27 @@
 // Memory leak report with no leaks.
 
 struct node {
-  struct node *next;
+struct node *next;
 };
 typedef struct node node;
 
 int main() {
-  node *list = NULL;
-  node *n;
+node *list = NULL;
+node *n;
 
-  // create a list
-  for (int i = 0; i < 45; ++i) {
-    n = (node *)malloc(sizeof(node));
-    n->next = list;
-    list = n;
-  }
-
-  // free everything in it
-  while ((n = list)) {
-    list = n->next;
-    free(n);
-  }
-  cs0019_printstatistics();
-  cs0019_printleakreport();
-  printf("OK\n");
+// create a list
+for (int i = 0; i < 400; ++i) {
+n = (node *)malloc(sizeof(node));
+n->next = list;
+list = n;
 }
 
-//! OK
+// free everything in it
+while ((n = list)) {
+list = n->next;
+free(n);
+}
+
+cs0019_printleakreport();
+printf("OK\n");
+}

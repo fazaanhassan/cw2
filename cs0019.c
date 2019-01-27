@@ -40,7 +40,7 @@ nodeData *head=NULL;
 nodeData *last=NULL;
 
 void addNode(void *ptr, size_t allocationSize, char *file, int line ) {
-    nodeData *temp_node =(nodeData *) base_malloc(sizeof(nodeData));
+    nodeData *temp_node =(nodeData *) malloc(sizeof(nodeData));
 
     temp_node->allocationSize=allocationSize;
     temp_node->currentPtr = ptr;
@@ -102,6 +102,7 @@ char checkExists(void *ptr) {
     }
   return 0;
 }
+
 size_t search_forSize(void *ptr) {
     nodeData *myNode = head;
 
@@ -175,38 +176,51 @@ void *cs0019_malloc(size_t sz, const char *file, int line) {
 
 int checkInHeap(void *ptr) {
 
-  if ((char *)ptr < myHeap_min ||(char *)ptr > myHeap_max) return 0;
-  else return 1;
+  if ((char *)ptr < myHeap_min ||(char *)ptr > myHeap_max) {
+
+    return 0;
+  } 
+
+  else {
+    return 1;
+  }
 
 }
 
+int counter=0;
 void cs0019_free(void *ptr, const char *file, int line) {
   (void)file, (void)line; // avoid uninitialized variable warnings
 
+  // printf("im here %d !!!\n ",counter);
+  counter++;
   if (ptr == NULL) {
     return;
   }
-  else {
-      if(checkOverWritten(ptr) == 1) {
-        printf("MEMORY BUG???: detected wild write during free of pointer ???\n");
-        return;
-      }
 
-      if (checkInHeap(ptr) == 0) {
-        printf("MEMORY BUG???: invalid free of pointer ???, not in heap\n");
-        return;
-      }
-      if (checkExists(ptr) == 0 && ((char *) ptr >= myHeap_min || (char *) ptr <myHeap_max) ) {
-        printf("MEMORY BUG: test%c.c:9: invalid free of pointer %p, not allocated\n",*file,ptr);
-        return;
-      }
-      if (checkExists(ptr) == 0){
-        printf("MEMORY BUG???: invalid free of pointer ???\n");
-        return;
-      }
+  printf("Just before not in heap statement %d\n", counter);
 
-      deleteNode(ptr);
+  if (checkInHeap(ptr) == 0) {
+    printf("MEMORY BUG???: invalid free of pointer ???, not in heap\n");
+    return;
   }
+
+  if(checkOverWritten(ptr) == 1) {
+    printf("MEMORY BUG???: detected wild write during free of pointer ???\n");
+    abort();
+  }
+
+
+  if (checkExists(ptr) == 0 && ((char *) ptr >= myHeap_min || (char *) ptr <myHeap_max) ) {
+    printf("MEMORY BUG: test%c.c:9: invalid free of pointer %p, not allocated\n",*file,ptr);
+    return;
+  }
+  if (checkExists(ptr) == 0){
+    printf("MEMORY BUG???: invalid free of pointer ???\n");
+    return;
+  }
+  deleteNode(ptr);
+
+  
   return;
 }
 
@@ -301,7 +315,7 @@ void cs0019_printleakreport(void) {
   nodeData *myNode = head;
 
   if(myNode == NULL) {
-    printf("ok\n");
+    return;
   }
   else {
     while(myNode->next != NULL) {
@@ -311,8 +325,6 @@ void cs0019_printleakreport(void) {
 
 
     }
-    printf("LEAK CHECK: %s:%d: allocated object %p with size %li\n",myNode->file, myNode->line, myNode->currentPtr, myNode->allocationSize);
-
   }
 // Your code here.
 }
