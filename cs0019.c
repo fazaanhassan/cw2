@@ -27,20 +27,20 @@ size_t very_large_size = (size_t)-1 - 150;
 size_t very_large_size_less = (size_t)-1;
 size_t very_large_nmemb = (size_t)-1 / 8 + 2;
 
-struct Node {
+struct NodeLoad {
     size_t allocationSize;
     int *currentPtr;
     char *file;
     int line;
-    struct Node *next;
+    struct NodeLoad *next;
 };
 
-typedef struct Node node;
-node *head=NULL;
-node *last=NULL;
+typedef struct NodeLoad nodeData;
+nodeData *head=NULL;
+nodeData *last=NULL;
 
 void addNode(void *ptr, size_t allocationSize, char *file, int line ) {
-    node *temp_node =(node *) malloc(sizeof(node));
+    nodeData *temp_node =(nodeData *) base_malloc(sizeof(nodeData));
 
     temp_node->allocationSize=allocationSize;
     temp_node->currentPtr = ptr;
@@ -60,8 +60,8 @@ void addNode(void *ptr, size_t allocationSize, char *file, int line ) {
 }
 
 void deleteNode(void *ptr) {
-    node *myNode = head;
-    node *previous=NULL;
+    nodeData *myNode = head;
+    nodeData *previous=NULL;
     
     // printf("myNactive is: %llu", myNactive);
     while(myNode!=NULL) {
@@ -90,7 +90,7 @@ void deleteNode(void *ptr) {
 
 }
 char checkExists(void *ptr) {
-    node *myNode = head;
+    nodeData *myNode = head;
     
     while(myNode!=NULL) {
         if(myNode->currentPtr==ptr) {
@@ -103,7 +103,7 @@ char checkExists(void *ptr) {
   return 0;
 }
 size_t search_forSize(void *ptr) {
-    node *myNode = head;
+    nodeData *myNode = head;
 
     while(myNode != NULL) {
         if(myNode->currentPtr==ptr) {
@@ -117,7 +117,7 @@ size_t search_forSize(void *ptr) {
   }
 int checkOverWritten(void *ptr) {
 
-    node *myNode = head;
+    nodeData *myNode = head;
 
     while(myNode != NULL) {
         if(myNode->currentPtr==ptr) {
@@ -173,6 +173,12 @@ void *cs0019_malloc(size_t sz, const char *file, int line) {
 ///    `ptr == NULL`, does nothing. The free was called at location
 ///    `file`:`line`.
 
+int checkInHeap(void *ptr) {
+
+  if ((char *)ptr < myHeap_min ||(char *)ptr > myHeap_max) return 0;
+  else return 1;
+
+}
 
 void cs0019_free(void *ptr, const char *file, int line) {
   (void)file, (void)line; // avoid uninitialized variable warnings
@@ -186,7 +192,7 @@ void cs0019_free(void *ptr, const char *file, int line) {
         return;
       }
 
-      if ((char *)ptr < myHeap_min ||(char *)ptr > myHeap_max) {
+      if (checkInHeap(ptr) == 0) {
         printf("MEMORY BUG???: invalid free of pointer ???, not in heap\n");
         return;
       }
@@ -292,16 +298,20 @@ void cs0019_printstatistics(void) {
 
 void cs0019_printleakreport(void) {
 
-  node *myNode = head;
+  nodeData *myNode = head;
 
   if(myNode == NULL) {
     printf("ok\n");
   }
   else {
-    while(myNode != NULL) {
-      printf("LEAK CHECK: test???.c:%d: allocated object ??{\w+}?? with size %d \n", myNode->line, myNode->allocationSize);
-        myNode = myNode->next;
+    while(myNode->next != NULL) {
+          //printf("EXPECTED LEAK: %p with size %li\n", temp->p1, temp->b1);
+      printf("LEAK CHECK: %s:%d: allocated object %p with size %li\n",myNode->file, myNode->line, myNode->currentPtr, myNode->allocationSize);
+      myNode = myNode->next;
+
+
     }
+    printf("LEAK CHECK: %s:%d: allocated object %p with size %li\n",myNode->file, myNode->line, myNode->currentPtr, myNode->allocationSize);
 
   }
 // Your code here.

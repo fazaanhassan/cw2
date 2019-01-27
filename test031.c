@@ -14,7 +14,7 @@ int main() {
   node *n;
 
   // create a list
-  for (int i = 0; i < 400; ++i) {
+  for (int i = 0; i < 45; ++i) {
     n = (node *)malloc(sizeof(node));
     n->next = list;
     list = n;
@@ -25,7 +25,7 @@ int main() {
     list = n->next;
     free(n);
   }
-
+  cs0019_printstatistics();
   cs0019_printleakreport();
   printf("OK\n");
 }
