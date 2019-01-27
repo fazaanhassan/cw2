@@ -1,5 +1,5 @@
 ## COMP0019 CW2 Grade Report
-Report for commit SHA: 4fda5729ea95954560b39aa6dbe017dab60827e7
+Report for commit SHA: cc45717d452815acb1107f11c16075a848e409a8
 
 ### Output
 
@@ -13,11 +13,6 @@ Report for commit SHA: 4fda5729ea95954560b39aa6dbe017dab60827e7
     cs0019.c:42:6: note: expected ‘char *’ but argument is of type ‘const char *’
      void addNode(void *ptr, size_t allocationSize, char *file, int line ) {
           ^
-    cs0019.c: In function ‘cs0019_printleakreport’:
-    cs0019.c:302:14: warning: unknown escape sequence: '\w'
-           printf("LEAK CHECK: test???.c:%d: allocated object ??{\w+}?? with size %d \n", myNode->line, myNode->allocationSize);
-                  ^
-    cs0019.c:302:14: warning: format ‘%d’ expects argument of type ‘int’, but argument 3 has type ‘size_t {aka long unsigned int}’ [-Wformat=]
     cs0019.c: In function ‘search_forSize’:
     cs0019.c:117:3: warning: control reaches end of non-void function [-Wreturn-type]
        }
@@ -152,19 +147,19 @@ Report for commit SHA: 4fda5729ea95954560b39aa6dbe017dab60827e7
                      MEMORY BUG???: invalid free of pointer ???, not in heap
                      MEMORY BUG???: invalid free of pointer ???, not in heap
                      MEMORY BUG???: invalid free of pointer ???, not in heap
-                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
-                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
-                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
-                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
-                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
-                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
-                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
-                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
-                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
-                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
-                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
-                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
-                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
+                     LEAK CHECK: test031.c:18: allocated object 0x1608010 with size 8
+                     LEAK CHECK: test031.c:18: allocated object 0x1608060 with size 8
+                     LEAK CHECK: test031.c:18: allocated object 0x16080b0 with size 8
+                     LEAK CHECK: test031.c:18: allocated object 0x1608100 with size 8
+                     LEAK CHECK: test031.c:18: allocated object 0x1608150 with size 8
+                     LEAK CHECK: test031.c:18: allocated object 0x16081a0 with size 8
+                     LEAK CHECK: test031.c:18: allocated object 0x16081f0 with size 8
+                     LEAK CHECK: test031.c:18: allocated object 0x1608240 with size 8
+                     LEAK CHECK: test031.c:18: allocated object 0x1608290 with size 8
+                     LEAK CHECK: test031.c:18: allocated object 0x16082e0 with size 8
+                     LEAK CHECK: test031.c:18: allocated object 0x1608330 with size 8
+                     LEAK CHECK: test031.c:18: allocated object 0x1608380 with size 8
+                     LEAK CHECK: test031.c:18: allocated object 0x16083d0 with size 8
                      OK`
     test032 FAIL: Unexpected output starting on line 1
       test032.c:39: Expected `EXPECTED LEAK: ??{0x\w*}=pointer?? with size ??{\d+}=size??`
@@ -181,30 +176,22 @@ Report for commit SHA: 4fda5729ea95954560b39aa6dbe017dab60827e7
                      MEMORY BUG???: invalid free of pointer ???, not in heap
                      MEMORY BUG???: invalid free of pointer ???, not in heap
                      MEMORY BUG???: invalid free of pointer ???, not in heap
-                     EXPECTED LEAK: 0xe65d20 with size 8
-                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
-                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
-                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
-                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
-                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
-                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
-                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
-                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
-                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
-                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
-                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
-                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
-                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 
-                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 8 `
-    test033 FAIL: Unexpected output starting on line 1
-      test033.c:31: Expected `LEAK CHECK: test???.c:10: allocated object ??{\w+}?? with size 11`
-      output:1: Got `LEAK CHECK: test???.c:10: allocated object ??{w+}?? with size 11 
-                     LEAK CHECK: test???.c:11: allocated object ??{w+}?? with size 12 
-                     LEAK CHECK: test???.c:13: allocated object ??{w+}?? with size 14 
-                     LEAK CHECK: test???.c:14: allocated object ??{w+}?? with size 15 
-                     LEAK CHECK: test???.c:15: allocated object ??{w+}?? with size 16 
-                     LEAK CHECK: test???.c:16: allocated object ??{w+}?? with size 17 
-                     LEAK CHECK: test???.c:18: allocated object ??{w+}?? with size 19 `
+                     EXPECTED LEAK: 0x1b0e120 with size 8
+                     LEAK CHECK: test032.c:18: allocated object 0x1b0c010 with size 8
+                     LEAK CHECK: test032.c:18: allocated object 0x1b0c060 with size 8
+                     LEAK CHECK: test032.c:18: allocated object 0x1b0c0b0 with size 8
+                     LEAK CHECK: test032.c:18: allocated object 0x1b0c100 with size 8
+                     LEAK CHECK: test032.c:18: allocated object 0x1b0c150 with size 8
+                     LEAK CHECK: test032.c:18: allocated object 0x1b0c1a0 with size 8
+                     LEAK CHECK: test032.c:18: allocated object 0x1b0c1f0 with size 8
+                     LEAK CHECK: test032.c:18: allocated object 0x1b0c240 with size 8
+                     LEAK CHECK: test032.c:18: allocated object 0x1b0c290 with size 8
+                     LEAK CHECK: test032.c:18: allocated object 0x1b0c2e0 with size 8
+                     LEAK CHECK: test032.c:18: allocated object 0x1b0c330 with size 8
+                     LEAK CHECK: test032.c:18: allocated object 0x1b0c380 with size 8
+                     LEAK CHECK: test032.c:18: allocated object 0x1b0c3d0 with size 8
+                     LEAK CHECK: test032.c:18: allocated object 0x1b0e120 with size 8`
+    test033 OK
     test034 FAIL: Unexpected output starting on line 2
       test034.c:14: Expected `  test???.c:8: ??? is 128 bytes inside a 2001 byte region allocated here`
       output:2: Got `malloc count: active          1   total          1   fail          0
@@ -216,7 +203,7 @@ Report for commit SHA: 4fda5729ea95954560b39aa6dbe017dab60827e7
                      malloc size:  active       3350   total       3450   fail          0`
     test037 OK
     test038 OK
-    32 of 38 tests passed
+    33 of 38 tests passed
     make: 'hhtest' is up to date.
     ./hhtest 0
     
@@ -239,5 +226,5 @@ Report for commit SHA: 4fda5729ea95954560b39aa6dbe017dab60827e7
 
 Heavy hitter marks: 0.0/20
 
-Total score: (32/38) * 80.0 + 0.0 = 67.0/100
+Total score: (33/38) * 80.0 + 0.0 = 69.0/100
 
