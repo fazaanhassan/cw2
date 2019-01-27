@@ -197,7 +197,7 @@ void cs0019_free(void *ptr, const char *file, int line) {
     return;
   }
 
-  printf("Just before not in heap statement %d\n", counter);
+  // printf("Just before not in heap statement %d\n", counter);
 
   if (checkInHeap(ptr) == 0) {
     printf("MEMORY BUG???: invalid free of pointer ???, not in heap\n");
