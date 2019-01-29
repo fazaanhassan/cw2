@@ -1,5 +1,5 @@
 ## COMP0019 CW2 Grade Report
-Report for commit SHA: b87d6e251bc20abfdcb69bd5bc5a3f5276f39399
+Report for commit SHA: f946e06a142e3ff06e6f228323ab720e36080ffa
 
 ### Output
 
@@ -7,18 +7,18 @@ Report for commit SHA: b87d6e251bc20abfdcb69bd5bc5a3f5276f39399
       CLEAN 
       COMPILE cs0019.c
     cs0019.c: In function ‘cs0019_malloc’:
-    cs0019.c:156:20: warning: passing argument 3 of ‘addNode’ discards ‘const’ qualifier from pointer target type [-Wdiscarded-qualifiers]
+    cs0019.c:155:20: warning: passing argument 3 of ‘addNode’ discards ‘const’ qualifier from pointer target type [-Wdiscarded-qualifiers]
        addNode(ptr, sz, file, line);
                         ^
     cs0019.c:42:6: note: expected ‘char *’ but argument is of type ‘const char *’
      void addNode(void *ptr, size_t allocationSize, char *file, int line ) {
           ^
     cs0019.c: In function ‘search_forSize’:
-    cs0019.c:118:3: warning: control reaches end of non-void function [-Wreturn-type]
+    cs0019.c:117:3: warning: control reaches end of non-void function [-Wreturn-type]
        }
        ^
     cs0019.c: In function ‘checkOverWritten’:
-    cs0019.c:137:1: warning: control reaches end of non-void function [-Wreturn-type]
+    cs0019.c:136:1: warning: control reaches end of non-void function [-Wreturn-type]
      }
      ^
       COMPILE basealloc.c
@@ -131,65 +131,9 @@ Report for commit SHA: b87d6e251bc20abfdcb69bd5bc5a3f5276f39399
     test028 OK
     test029 OK
     test030 OK
-    test031 FAIL: Unexpected output starting on line 1
-      test031.c:33: Expected `OK`
-      output:1: Got `MEMORY BUG???: invalid free of pointer ???, not in heap
-                     MEMORY BUG???: invalid free of pointer ???, not in heap
-                     MEMORY BUG???: invalid free of pointer ???, not in heap
-                     MEMORY BUG???: invalid free of pointer ???, not in heap
-                     MEMORY BUG???: invalid free of pointer ???, not in heap
-                     MEMORY BUG???: invalid free of pointer ???, not in heap
-                     MEMORY BUG???: invalid free of pointer ???, not in heap
-                     MEMORY BUG???: invalid free of pointer ???, not in heap
-                     MEMORY BUG???: invalid free of pointer ???, not in heap
-                     MEMORY BUG???: invalid free of pointer ???, not in heap
-                     MEMORY BUG???: invalid free of pointer ???, not in heap
-                     MEMORY BUG???: invalid free of pointer ???, not in heap
-                     MEMORY BUG???: invalid free of pointer ???, not in heap
-                     LEAK CHECK: test031.c:18: allocated object 0xa1c010 with size 8
-                     LEAK CHECK: test031.c:18: allocated object 0xa1c060 with size 8
-                     LEAK CHECK: test031.c:18: allocated object 0xa1c0b0 with size 8
-                     LEAK CHECK: test031.c:18: allocated object 0xa1c100 with size 8
-                     LEAK CHECK: test031.c:18: allocated object 0xa1c150 with size 8
-                     LEAK CHECK: test031.c:18: allocated object 0xa1c1a0 with size 8
-                     LEAK CHECK: test031.c:18: allocated object 0xa1c1f0 with size 8
-                     LEAK CHECK: test031.c:18: allocated object 0xa1c240 with size 8
-                     LEAK CHECK: test031.c:18: allocated object 0xa1c290 with size 8
-                     LEAK CHECK: test031.c:18: allocated object 0xa1c2e0 with size 8
-                     LEAK CHECK: test031.c:18: allocated object 0xa1c330 with size 8
-                     LEAK CHECK: test031.c:18: allocated object 0xa1c380 with size 8
-                     OK`
-    test032 FAIL: Unexpected output starting on line 1
-      test032.c:39: Expected `EXPECTED LEAK: ??{0x\w*}=pointer?? with size ??{\d+}=size??`
-      output:1: Got `MEMORY BUG???: invalid free of pointer ???, not in heap
-                     MEMORY BUG???: invalid free of pointer ???, not in heap
-                     MEMORY BUG???: invalid free of pointer ???, not in heap
-                     MEMORY BUG???: invalid free of pointer ???, not in heap
-                     MEMORY BUG???: invalid free of pointer ???, not in heap
-                     MEMORY BUG???: invalid free of pointer ???, not in heap
-                     MEMORY BUG???: invalid free of pointer ???, not in heap
-                     MEMORY BUG???: invalid free of pointer ???, not in heap
-                     MEMORY BUG???: invalid free of pointer ???, not in heap
-                     MEMORY BUG???: invalid free of pointer ???, not in heap
-                     MEMORY BUG???: invalid free of pointer ???, not in heap
-                     MEMORY BUG???: invalid free of pointer ???, not in heap
-                     MEMORY BUG???: invalid free of pointer ???, not in heap
-                     EXPECTED LEAK: 0x1173d20 with size 8
-                     LEAK CHECK: test032.c:18: allocated object 0x1172010 with size 8
-                     LEAK CHECK: test032.c:18: allocated object 0x1172060 with size 8
-                     LEAK CHECK: test032.c:18: allocated object 0x11720b0 with size 8
-                     LEAK CHECK: test032.c:18: allocated object 0x1172100 with size 8
-                     LEAK CHECK: test032.c:18: allocated object 0x1172150 with size 8
-                     LEAK CHECK: test032.c:18: allocated object 0x11721a0 with size 8
-                     LEAK CHECK: test032.c:18: allocated object 0x11721f0 with size 8
-                     LEAK CHECK: test032.c:18: allocated object 0x1172240 with size 8
-                     LEAK CHECK: test032.c:18: allocated object 0x1172290 with size 8
-                     LEAK CHECK: test032.c:18: allocated object 0x11722e0 with size 8
-                     LEAK CHECK: test032.c:18: allocated object 0x1172330 with size 8
-                     LEAK CHECK: test032.c:18: allocated object 0x1172380 with size 8
-                     LEAK CHECK: test032.c:18: allocated object 0x11723d0 with size 8`
-    test033 FAIL: Missing output starting on line 6
-      test033.c:37: Expected `LEAK CHECK: test???.c:18: allocated object ??{\w+}?? with size 19`
+    test031 OK
+    test032 OK
+    test033 OK
     test034 FAIL: Unexpected output starting on line 2
       test034.c:14: Expected `  test???.c:8: ??? is 128 bytes inside a 2001 byte region allocated here`
       output:2: Got `malloc count: active          1   total          1   fail          0
@@ -201,7 +145,7 @@ Report for commit SHA: b87d6e251bc20abfdcb69bd5bc5a3f5276f39399
                      malloc size:  active       3350   total       3450   fail          0`
     test037 OK
     test038 OK
-    33 of 38 tests passed
+    36 of 38 tests passed
     make: 'hhtest' is up to date.
     ./hhtest 0
     
@@ -224,5 +168,5 @@ Report for commit SHA: b87d6e251bc20abfdcb69bd5bc5a3f5276f39399
 
 Heavy hitter marks: 0.0/20
 
-Total score: (33/38) * 80.0 + 0.0 = 69.0/100
+Total score: (36/38) * 80.0 + 0.0 = 76.0/100
 
