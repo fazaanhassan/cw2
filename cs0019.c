@@ -80,14 +80,13 @@ void deleteNode(void *ptr) {
           base_free(ptr);
           base_free(myNode);
           // printf("b4 activeaaa %llu \n", myNactive);
- 
-          break;
+          return;
         }
 
         previous = myNode;
         myNode = myNode->next;
     }
-
+  return;
 }
 char checkExists(void *ptr) {
     nodeData *myNode = head;
@@ -197,11 +196,14 @@ void cs0019_free(void *ptr, const char *file, int line) {
     return;
   }
 
-  // printf("Just before not in heap statement %d\n", counter);
+  
 
   if (checkInHeap(ptr) == 0) {
-    printf("MEMORY BUG???: invalid free of pointer ???, not in heap\n");
-    return;
+    if (checkExists(ptr) == 0) {
+      printf("MEMORY BUG???: invalid free of pointer ???, not in heap\n");
+      return;
+      }
+    // printf("Just before not in heap statement %d\n", counter);
   }
 
   if(checkOverWritten(ptr) == 1) {
@@ -313,18 +315,21 @@ void cs0019_printstatistics(void) {
 void cs0019_printleakreport(void) {
 
   nodeData *myNode = head;
-
   if(myNode == NULL) {
     return;
   }
   else {
+    // printf("in while \n");
     while(myNode->next != NULL) {
+
           //printf("EXPECTED LEAK: %p with size %li\n", temp->p1, temp->b1);
       printf("LEAK CHECK: %s:%d: allocated object %p with size %li\n",myNode->file, myNode->line, myNode->currentPtr, myNode->allocationSize);
       myNode = myNode->next;
 
 
     }
+    printf("LEAK CHECK: %s:%d: allocated object %p with size %li\n",myNode->file, myNode->line, myNode->currentPtr, myNode->allocationSize);
+
   }
 // Your code here.
 }
