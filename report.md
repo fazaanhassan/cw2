@@ -1,13 +1,20 @@
 ## COMP0019 CW2 Grade Report
-Report for commit SHA: f946e06a142e3ff06e6f228323ab720e36080ffa
+Report for commit SHA: d2657a102dd1798a927515f5c8137b5ae7ecb0a9
 
 ### Output
 
 
       CLEAN 
       COMPILE cs0019.c
+    cs0019.c: In function ‘checkWithinRange’:
+    cs0019.c:143:31: warning: comparison of distinct pointer types lacks a cast
+                   if ((char *)ptr > currentNodeBeingSearched->currentPtr || (char *)ptr < currentNodeBeingSearched->currentPtr + currentNodeBeingSearched->allocationSize) {
+                                   ^
+    cs0019.c:143:85: warning: comparison of distinct pointer types lacks a cast
+                   if ((char *)ptr > currentNodeBeingSearched->currentPtr || (char *)ptr < currentNodeBeingSearched->currentPtr + currentNodeBeingSearched->allocationSize) {
+                                                                                         ^
     cs0019.c: In function ‘cs0019_malloc’:
-    cs0019.c:155:20: warning: passing argument 3 of ‘addNode’ discards ‘const’ qualifier from pointer target type [-Wdiscarded-qualifiers]
+    cs0019.c:171:20: warning: passing argument 3 of ‘addNode’ discards ‘const’ qualifier from pointer target type [-Wdiscarded-qualifiers]
        addNode(ptr, sz, file, line);
                         ^
     cs0019.c:42:6: note: expected ‘char *’ but argument is of type ‘const char *’
@@ -19,6 +26,10 @@ Report for commit SHA: f946e06a142e3ff06e6f228323ab720e36080ffa
        ^
     cs0019.c: In function ‘checkOverWritten’:
     cs0019.c:136:1: warning: control reaches end of non-void function [-Wreturn-type]
+     }
+     ^
+    cs0019.c: In function ‘checkWithinRange’:
+    cs0019.c:152:1: warning: control reaches end of non-void function [-Wreturn-type]
      }
      ^
       COMPILE basealloc.c
@@ -134,10 +145,7 @@ Report for commit SHA: f946e06a142e3ff06e6f228323ab720e36080ffa
     test031 OK
     test032 OK
     test033 OK
-    test034 FAIL: Unexpected output starting on line 2
-      test034.c:14: Expected `  test???.c:8: ??? is 128 bytes inside a 2001 byte region allocated here`
-      output:2: Got `malloc count: active          1   total          1   fail          0
-                     malloc size:  active       2001   total       2001   fail          0`
+    test034 OK
     test035 OK
     test036 FAIL: Unexpected output starting on line 1
       test036.c:20: Expected `MEMORY BUG???: ??? free of pointer ???`
@@ -145,7 +153,7 @@ Report for commit SHA: f946e06a142e3ff06e6f228323ab720e36080ffa
                      malloc size:  active       3350   total       3450   fail          0`
     test037 OK
     test038 OK
-    36 of 38 tests passed
+    37 of 38 tests passed
     make: 'hhtest' is up to date.
     ./hhtest 0
     
@@ -168,5 +176,5 @@ Report for commit SHA: f946e06a142e3ff06e6f228323ab720e36080ffa
 
 Heavy hitter marks: 0.0/20
 
-Total score: (36/38) * 80.0 + 0.0 = 76.0/100
+Total score: (37/38) * 80.0 + 0.0 = 78.0/100
 
