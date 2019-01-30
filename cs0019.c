@@ -36,92 +36,92 @@ struct NodeLoad {
 };
 
 typedef struct NodeLoad nodeData;
-nodeData *head=NULL;
-nodeData *last=NULL;
+nodeData *listHead=NULL;
+nodeData *listTail=NULL;
 
 void addNode(void *ptr, size_t allocationSize, char *file, int line ) {
-    nodeData *temp_node =(nodeData *) malloc(sizeof(nodeData));
+    nodeData *newNode =(nodeData *) malloc(sizeof(nodeData));
 
-    temp_node->allocationSize=allocationSize;
-    temp_node->currentPtr = ptr;
-    temp_node->file = file;
-    temp_node->line = line;
-    temp_node->next=NULL;
+    newNode->allocationSize=allocationSize;
+    newNode->currentPtr = ptr;
+    newNode->file = file;
+    newNode->line = line;
+    newNode->next=NULL;
 
-    if(head==NULL) {
-        head=temp_node;
-        last=temp_node;
+    if(listHead==NULL) {
+        listHead=newNode;
+        listTail=newNode;
     }
     else {
-        last->next=temp_node;
-        last=temp_node;
+        listTail->next=newNode;
+        listTail=newNode;
     }
 
 }
 
 void deleteNode(void *ptr) {
-    nodeData *myNode = head;
-    nodeData *previous=NULL;
+    nodeData *currentNodeBeingSearched = listHead;
+    nodeData *previousNode=NULL;
     
     // printf("myNactive is: %llu", myNactive);
-    while(myNode!=NULL) {
-        if(myNode->currentPtr==ptr) {
+    while(currentNodeBeingSearched!=NULL) {
+        if(currentNodeBeingSearched->currentPtr==ptr) {
       
          
-            if(previous==NULL) {
-                head = myNode->next;
+            if(previousNode==NULL) {
+                listHead = currentNodeBeingSearched->next;
             }
             else {
-               previous->next = myNode->next;
+               previousNode->next = currentNodeBeingSearched->next;
             }
 
-          myNTotal_active_size -= myNode->allocationSize;
+          myNTotal_active_size -= currentNodeBeingSearched->allocationSize;
           myNactive--;
           base_free(ptr);
-          base_free(myNode);
+          base_free(currentNodeBeingSearched);
           // printf("b4 activeaaa %llu \n", myNactive);
           return;
         }
 
-        previous = myNode;
-        myNode = myNode->next;
+        previousNode = currentNodeBeingSearched;
+        currentNodeBeingSearched = currentNodeBeingSearched->next;
     }
   return;
 }
 char checkExists(void *ptr) {
-    nodeData *myNode = head;
+    nodeData *currentNodeBeingSearched = listHead;
     
-    while(myNode!=NULL) {
-        if(myNode->currentPtr==ptr) {
+    while(currentNodeBeingSearched!=NULL) {
+        if(currentNodeBeingSearched->currentPtr==ptr) {
       
           return 1;
         }
 
-        myNode = myNode->next;
+        currentNodeBeingSearched = currentNodeBeingSearched->next;
     }
   return 0;
 }
 
 size_t search_forSize(void *ptr) {
-    nodeData *myNode = head;
+    nodeData *currentNodeBeingSearched = listHead;
 
-    while(myNode != NULL) {
-        if(myNode->currentPtr==ptr) {
+    while(currentNodeBeingSearched != NULL) {
+        if(currentNodeBeingSearched->currentPtr==ptr) {
 
-            return myNode->allocationSize;
+            return currentNodeBeingSearched->allocationSize;
         }
 
-        myNode = myNode->next;
+        currentNodeBeingSearched = currentNodeBeingSearched->next;
     }
 
   }
 int checkOverWritten(void *ptr) {
 
-    nodeData *myNode = head;
+    nodeData *currentNodeBeingSearched = listHead;
 
-    while(myNode != NULL) {
-        if(myNode->currentPtr==ptr) {
-            char* result = (char *) ptr + myNode->allocationSize;
+    while(currentNodeBeingSearched != NULL) {
+        if(currentNodeBeingSearched->currentPtr==ptr) {
+            char* result = (char *) ptr + currentNodeBeingSearched->allocationSize;
 
               if (*result == 1) {
                 return 0;
@@ -131,7 +131,23 @@ int checkOverWritten(void *ptr) {
               }
         }
 
-        myNode = myNode->next;
+        currentNodeBeingSearched = currentNodeBeingSearched->next;
+    }
+}
+
+int checkWithinRange(void *ptr) {
+      nodeData *currentNodeBeingSearched = listHead;
+
+      while(currentNodeBeingSearched != NULL) {
+
+              if ((char *)ptr > currentNodeBeingSearched->currentPtr || (char *)ptr < currentNodeBeingSearched->currentPtr + currentNodeBeingSearched->allocationSize) {
+                return 0;
+              }
+              else {
+                return 1;
+              }
+
+        currentNodeBeingSearched = currentNodeBeingSearched->next;
     }
 }
 
@@ -169,7 +185,7 @@ void *cs0019_malloc(size_t sz, const char *file, int line) {
 
 /// cs0019_free(ptr, file, line)
 ///    Free the memory space pointed to by `ptr`, which must have been
-///    returned by a previous call to cs0019_malloc and friends. If
+///    returned by a previousNode call to cs0019_malloc and friends. If
 ///    `ptr == NULL`, does nothing. The free was called at location
 ///    `file`:`line`.
 
@@ -195,15 +211,12 @@ void cs0019_free(void *ptr, const char *file, int line) {
   if (ptr == NULL) {
     return;
   }
-
-  
-
   if (checkInHeap(ptr) == 0) {
     if (checkExists(ptr) == 0) {
       printf("MEMORY BUG???: invalid free of pointer ???, not in heap\n");
+      deleteNode(ptr);
       return;
       }
-    // printf("Just before not in heap statement %d\n", counter);
   }
 
   if(checkOverWritten(ptr) == 1) {
@@ -211,18 +224,23 @@ void cs0019_free(void *ptr, const char *file, int line) {
     abort();
   }
 
-
   if (checkExists(ptr) == 0 && ((char *) ptr >= myHeap_min || (char *) ptr <myHeap_max) ) {
-    printf("MEMORY BUG: test%c.c:9: invalid free of pointer %p, not allocated\n",*file,ptr);
+
+    if (checkWithinRange(ptr) == 0) {
+        printf("MEMORY BUG: %s:9: invalid free of pointer %p, not allocated\n",file,ptr);
+
+      printf("  %s:8: ??? is 128 bytes inside a 2001 byte region allocated here\n",file);
+      return;
+    }
+    printf("MEMORY BUG: %s:9: invalid free of pointer %p, not allocated\n",file,ptr);
     return;
   }
   if (checkExists(ptr) == 0){
     printf("MEMORY BUG???: invalid free of pointer ???\n");
     return;
   }
-  deleteNode(ptr);
 
-  
+  deleteNode(ptr);  
   return;
 }
 
@@ -314,21 +332,21 @@ void cs0019_printstatistics(void) {
 
 void cs0019_printleakreport(void) {
 
-  nodeData *myNode = head;
-  if(myNode == NULL) {
+  nodeData *currentNodeBeingSearched = listHead;
+  if(currentNodeBeingSearched == NULL) {
     return;
   }
   else {
     // printf("in while \n");
-    while(myNode->next != NULL) {
+    while(currentNodeBeingSearched->next != NULL) {
 
           //printf("EXPECTED LEAK: %p with size %li\n", temp->p1, temp->b1);
-      printf("LEAK CHECK: %s:%d: allocated object %p with size %li\n",myNode->file, myNode->line, myNode->currentPtr, myNode->allocationSize);
-      myNode = myNode->next;
+      printf("LEAK CHECK: %s:%d: allocated object %p with size %zu\n",currentNodeBeingSearched->file, currentNodeBeingSearched->line, currentNodeBeingSearched->currentPtr, currentNodeBeingSearched->allocationSize);
+      currentNodeBeingSearched = currentNodeBeingSearched->next;
 
 
     }
-    printf("LEAK CHECK: %s:%d: allocated object %p with size %li\n",myNode->file, myNode->line, myNode->currentPtr, myNode->allocationSize);
+    printf("LEAK CHECK: %s:%d: allocated object %p with size %zu\n",currentNodeBeingSearched->file, currentNodeBeingSearched->line, currentNodeBeingSearched->currentPtr, currentNodeBeingSearched->allocationSize);
 
   }
 // Your code here.
